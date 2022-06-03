@@ -1,0 +1,161 @@
+1)
+install dependencies fomik : handel our form data
+styled-components : package tostyling our components
+expo-constants : package for styling in styles.js file
+expo install formik styled-components expo-constants
+
+
+//////////////
+navigation in App
+
+
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      {/*  
+      /////////////////////
+      stack nvaigator  that use a tab navigater as component 
+      <Stack.Navigator
+        initialRouteName="Maintab"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#009387",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Stack.Screen
+          name="maintab"
+          component={MainTabScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator> 
+        <NavigationContainer>
+      */}
+    
+
+
+        
+
+      <RootStackScreen />
+      {/*  <MainTabScreen /> */}
+
+
+
+    </NavigationContainer>
+  );
+}
+
+/////////cc:
+2 navigation stack navigation for authentication tab navigation for navigate inside the App
+==>he inplement rootstack for authentication 
+==> a drawer navigation that contain components(maintab, support , bookmark , logout) that not in the maintab
+==>the maintab component is a tab Navigation contain(home,setting,profile,notifications)
+    
+
+///////////////////////:
+implement authentication:
+if user is authorized user and he is loged in that we provide the app screens main tab  (drawer stack screens )
+if user is not log in or signed or not valid user  then the rootstackscreen keep show
+
+1)when user submit we prevent the render effect (activityIndicator)
+2)in that time of render effect we will cheack if user is login (valid) or not 
+
+react.useMemo =>speed up the execution
+3)create function for sign in and sign up and sign out to set token and set is loding
+inside use useMemo  
+=>we need to pass them in component
+
+6)login authentication
+
+7)form validation
+the text input is valid 
+
+
+*)axios connection :
+=>in react native cant connect to local host for security reasons 
+=>use local ip@v4 instade of local host 
+
+export default axios.create({
+  baseUrl = "http://172.16.8.173:(backend port)"
+})
+
+
+ctrl + d =select serveral spots
+
+
+///////////////////////////////////
+**)passing value between screen
+*)using AuthContext:
+1)creating an AuthContext with the React library
+in context.js : export dafault AuthContext = React.createContext()
+2)import context in the app.js and wrapp all components with AuthContext.provider tag
+3)<AuthContext value={authContext}
+3)set the value of the AuthContext.provider (function and value that we will pass to use in different screen)
+=>use React.useMemo() to create an object that contain different function that i can getaccess to them in 
+different screen (import each function and use it )
+4)calling each function of them and pass value into them provides these values in the app.js
+
+const authContext = React.useMemo({
+  signIn=()=>{
+
+
+
+  }, signUp=()=>{
+
+  }, logOut=(data)=>{
+setStatus(data.status)
+settoken(data.token)
+  }
+})
+
+5)using these function for authentication 
+making condition in log in that the status must be eaqual to success and that token is different of null
+
+
+
+
+///////////////// dependencies without drawer
+"@expo/vector-icons": "^12.0.5",
+    "@react-navigation/material-bottom-tabs": "^6.2.1",
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.1",
+    "axios": "^0.26.1",
+    "expo": "~44.0.0",
+    "expo-constants": "~13.0.1",
+    "expo-linear-gradient": "~11.0.3",
+    "expo-status-bar": "~1.2.0",
+    "formik": "^2.2.9",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
+    "react-native-animatable": "^1.3.3",
+    "react-native-gesture-handler": "~2.1.0",
+    "react-native-linear-gradient": "^2.5.6",
+    "react-native-paper": "^4.12.0",
+    "react-native-reanimated": "~2.3.1",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.10.1",
+    "react-native-vector-icons": "^9.1.0",
+    "react-native-web": "0.17.1",
+    "styled-components": "^5.3.5"
+    ////
+
+    ////////////
+    
+    -Authcontext methode (help to send data to each screen in the app)
+    -get authentication data from (log in or sign up and communicate with the backendto get the access)
+
+   => in Drawer navigation or tab navigtaion or screan navigation 
+   we can send data from a screen to another 
+   1)in auth stack we get the data and send it to app screen 
+   *)I use th 
+   *)can we send it throw the the navigation.navigate that allow moving between screens
+   
+
+   //////////////
+   -need to calssifyscreens

@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   */
 import Icon from "react-native-vector-icons/Ionicons";
 
-import {getMessages} from "./../api/service";
+import { getMessages, postMessage } from "./../api/service";
 
 import React, { Component, useEffect, useState } from "react";
 import {
@@ -285,7 +285,7 @@ const MessageScreen = ({ navigation, route }) => {
   const [message, setMessage] = useState("");
 
   const [data, setData] = useState([
-    {
+    /*  {
       id: 1,
       date: "9:50 am",
       type: "in",
@@ -338,51 +338,79 @@ const MessageScreen = ({ navigation, route }) => {
       date: "9:50 am",
       type: "in",
       message: "Lorem ipsum dolor sit a met",
-    },
+    }, */
   ]);
 
   /* get all messages  */
   useEffect(async () => {
-    const data = await getMessages(route.params.item);
-    console.log("use effect messsagescreen :"+data);
-  });
+    /* console.log("receiver :" + route.params.item.id); */
+
+    route.params.currentUser.role === "doctor"
+      ? (receiver = route.params.item.id)
+      : route.params.currentUser.role === "patient"
+      ? null
+      : null;
+
+    const data = await getMessages(route.params.token, receiver);
+    console.log("use effect messsagescreen :" + data);
+    setData(data);
+  }, []);
 
   const renderDate = date => {
+    /* convert the date */
     return <Text style={styles.time}>{date}</Text>;
   };
 
-  const send = () => {
-    console.log(route.params.item);
+  const send = async () => {
     if (message.length > 0) {
       var messages = data;
-      messages.push({
-        /*     sender :current user      
+      /*     sender :current user      
         receiver : /*depend of current user  
         content  : /* message text 
  */
-        id: Math.floor(Math.random() * 99999999999999999 + 1),
-        data: "10:50",
-        type: "out",
-        message: message,
+      messages.push({
+             key: Math.floor(Math.random() * 99999999999999999 + 1), 
+        sender: route.params.currentUser.id,
+        receiver: !route.params.item
+          ? route.params.currentUser.doctor
+          : route.params.item.id,
+        content: message,
+        createdAt: Date.now() /* .toPrecision() */,
       });
+      console.log(messages);
       /* this will update the tab of messages called data (will be set to the messages var that contain new message) */
+
+      /* post this message to db 
+create method to post to database*/
+
+      const postReturn = await postMessage(
+        route.params.token,
+        !route.params.item
+          ? route.params.currentUser.doctor
+          : route.params.item.id,
+        { content: message }
+      );
+
       setData(messages);
-      /* send a replay */
-      /*  setTimeout(() => {
+    }
+    /* send a replay */
+    /*  setTimeout(() => {
         this.reply();
       }, 2000); */
-    }
   };
 
   return (
     <View style={styles.container}>
-      <Icon.Button
-        name="ios-menu"
-        size={25}
-        color="#111"
-        backgroundColor="#009387"
-        onPress={() => navigation.openDrawer()}
-      ></Icon.Button>
+      {route.params.currentUser.role === "patient" ? (
+        <Icon.Button
+          name="ios-menu"
+          size={25}
+          color="#111"
+          backgroundColor="#009387"
+          onPress={() => navigation.openDrawer()}
+        ></Icon.Button>
+      ) : null}
+
       <FlatList
         style={styles.list}
         data={data}
@@ -390,15 +418,16 @@ const MessageScreen = ({ navigation, route }) => {
           return item.id;
         }}
         renderItem={({ item }) => {
-          let inMessage = item.type === "in";
+          /* in message is received message that current user (current user is sender) */
+          let inMessage = route.params.currentUser.id === item.receiver;
           let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
           return (
             <View style={[styles.item, itemStyle]}>
-              {!inMessage && renderDate(item.date)}
+              {!inMessage && renderDate(item.createdAt)}
               <View style={[styles.balloon]}>
-                <Text>{item.message}</Text>
+                <Text>{item.content}</Text>
               </View>
-              {inMessage && renderDate(item.date)}
+              {inMessage && renderDate(item.createdAt)}
             </View>
           );
         }}
@@ -415,12 +444,7 @@ const MessageScreen = ({ navigation, route }) => {
           />
         </View>
 
-        <TouchableOpacity
-          style={styles.btnSend}
-          onPress={() => {
-            send();
-          }}
-        >
+        <TouchableOpacity style={styles.btnSend} onPress={() => send()}>
           <Image
             source={{
               uri: "https://img.icons8.com/small/75/ffffff/filled-sent.png",
@@ -492,7 +516,7 @@ const styles = StyleSheet.create({
   time: {
     alignSelf: "flex-end",
     margin: 15,
-    fontSize: 12,
+    fontSize: 10,
     color: "#808080",
   },
   item: {

@@ -99,7 +99,7 @@ const CommunList = ({ navigation, route }) => {
               onPress={() => {
                 /* when we press on a doctor we navigate to doctor about screen  that describe the specific doctor */
 
-                {
+                {/* role of the usercard not the user of the app */
                   item.role === "patient"
                     ? navigation.navigate("PatientTabNav", { item })
                     : item.role === "doctor"

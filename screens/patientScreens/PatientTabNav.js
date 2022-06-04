@@ -38,7 +38,7 @@ function PatientTabNav({ navigation, route }) {
       <Tab.Screen
         name="PatientData"
         component={PatientDataScreen}
-        initialParams={{ item: route.params.token }}
+        initialParams={{ token: route.params.token,currentUser : route.params.currentUser }}
         options={{
           tabBarLabel: "Patient Details",
           tabBarColor: "#009387",
@@ -50,7 +50,7 @@ function PatientTabNav({ navigation, route }) {
       <Tab.Screen
         name="Message"
         component={MessageScreen}
-        initialParams={{ item: route.params.token }}
+        initialParams={{ token: route.params.token,currentUser : route.params.currentUser }}
         options={{
           tabBarLabel: "Message",
           tabBarColor: "#009387",

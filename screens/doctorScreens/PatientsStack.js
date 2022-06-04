@@ -14,7 +14,7 @@ const PatientStackScreen = ({ navigation, route }) => (
     <PatientStack.Screen
       name="Patients"
       component={CommunList}/* component={Patients} */ /* replace the patients screen commun list screen */
-      initialParams={{ token: route.params.token }}
+      initialParams={{ token: route.params.token, currentUser :route.params.currentUser  }}
 
       options={{
         headerStyle: {
@@ -37,7 +37,7 @@ const PatientStackScreen = ({ navigation, route }) => (
     <PatientStack.Screen
       name="PatientTabNav"
       component={PatientTabNav}
-      initialParams={{ token: route.params.token }}
+      initialParams={{ token: route.params.token, currentUser :route.params.currentUser   }}
       options={{
         headerStyle: {
           backgroundColor: "#009387",

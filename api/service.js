@@ -79,19 +79,39 @@ export async function getMe(token) {
   }
 }
 
-export async function getMessages(token) {
+export async function getMessages(token, receiver) {
   try {
-    const res = await Client.get("/message", {
+    const res = await Client.get(`/users/receiver/${receiver}/`, {
       headers: {
         authorization: token,
       },
     });
 
- 
-    console.log("response from get messages in service :" );
-    console.log( res);
+    console.log("response from get messages in service :");
+    console.log(res.data.data.document); /* array of all messagesmessages */
+    const tabOfmsg = res.data.data.document;
+    return tabOfmsg;
+  } catch (error) {
+    console.log("error in getme service methode:" + error);
+  }
+}
 
-    /* return allData; */
+export async function postMessage(token, receiver, content) {
+  try {
+    console.log(content);
+    const res = await Client.post(
+      `/users/receiver/${receiver}`,
+      { ...content },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+
+    console.log("response from post messages in service :");
+    console.log(res.data.data); /* array of all messagesmessages */
+    return res.data.data;
   } catch (error) {
     console.log("error in getme service methode:" + error);
   }

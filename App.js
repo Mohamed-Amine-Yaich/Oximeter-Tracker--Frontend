@@ -193,7 +193,7 @@ export default function App() {
                       <Drawer.Screen
                         name="Patients"
                         component={PatientStackScreen}
-                        initialParams={{ token: userToken }}
+                        initialParams={{ token: userToken, currentUser :userData   }}
                       />
 
                       {/*   <Drawer.Screen
@@ -229,7 +229,7 @@ export default function App() {
                       <Drawer.Screen
                         name="Details"
                         component={PatientTabNav}
-                        initialParams={{ token: userToken }}
+                        initialParams={{ token: userToken , currentUser :userData   }}
                       />
 
                       <Drawer.Screen

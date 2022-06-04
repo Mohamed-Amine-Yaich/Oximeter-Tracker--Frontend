@@ -17,14 +17,14 @@ import Feather from "react-native-vector-icons/Feather";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { AuthContext } from "../../components/context";
+import { AuthContext } from "../components/context";
 /* import { useTheme } from "react-native-paper"
 
 
 
 import Users from "../../model/users"; */
 
-import { loginService } from "../../api/service";
+import { loginService } from "../api/service";
 
 //we can import useThem from these two library (useTheme from react native paper)
 //import { useTheme } from "@react-navigation/native";
@@ -35,10 +35,10 @@ const Login = ({ navigation }) => {
   const { colors } = useTheme();
 
   const [data, setData] = React.useState({
-  /*   email: "doctor1@gmail.com",
-    password: "wiss12345", */ 
-     email: "amine@gmail.com",
-    password: "wissamine0407",  
+    email: "doctor1@gmail.com",
+    password: "wiss12345",  
+  /*    email: "amine@gmail.com",
+    password: "wissamine0407",   */
     passwordIsValid: true, 
     emailIsvalid: true,
     check_textInputChange: false,

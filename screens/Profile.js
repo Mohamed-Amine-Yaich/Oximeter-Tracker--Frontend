@@ -27,7 +27,7 @@ function Profile({ navigation, route }) {
 
 
   
-
+/* refrech the page */
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus',async () => {
       const userData = await getMe(route.params.token);
@@ -42,6 +42,10 @@ function Profile({ navigation, route }) {
   }, [navigation]);
 
 
+
+/* the request is not useless cause when data change we need to request again
+pass the currentUser to the profile stack in intialparams 
+maybe user data will not be refreshed when we change it  */
   React.useEffect(async () => {
     /* wait for the data user from api */
     const userData = await getMe(route.params.token);

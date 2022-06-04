@@ -22,7 +22,13 @@ const PatientDataScreen = ({ route, navigation }) => {
         onPress={() => navigation.openDrawer()}
       ></Icon.Button>
       <Text> hello from patient data screen</Text>
-      <Text> {route.params.item}</Text>
+      <Text> {route.params.token}</Text>
+      <Text>current user : {route.params.currentUser.name}</Text>
+      <Text>current user : {route.params.currentUser.lastName}</Text>
+      <Text>current user : {route.params.currentUser.role}</Text>
+      
+
+
     </View>
   );
 };

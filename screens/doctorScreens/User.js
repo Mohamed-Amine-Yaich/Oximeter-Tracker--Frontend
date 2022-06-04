@@ -8,7 +8,13 @@ const User = ({ route, navigation }) => {
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <Text> hello from user details</Text>
       <Text> {item.name}</Text>
-      <Text> {route.params.token}</Text>
+      <Text> {item.role}</Text>
+      <Text> {item.id}</Text>
+
+     
+
+
+   {/*    <Text> {route.params.token}</Text> */}
     </View>
   );
 };

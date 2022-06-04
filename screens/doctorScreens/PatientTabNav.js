@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import HomeScreen from "../Home";
 //this present user details
 import User from "./User";
-import Message from "../MessageScreen";
+import MessageScreen from "../MessageScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -20,11 +20,11 @@ function PatientTabNav({ navigation, route }) {
       initialRouteName="User"
       activeColor="#fff"
       barStyle={{ backgroundColor: "#009387" }}
-    >
+    >{/* 
       <Tab.Screen
         name="Home"
-        component={HomeScreen} /* send  props the home screen  */
-        /*   not works because the route containe the item(user data) initialParams={{ token: route.params.token }} */
+        component={HomeScreen} /* send  props the home screen  
+        /*   not works because the route containe the item(user data) initialParams={{ token: route.params.token }} 
         initialParams={{ token: route.params.token }}
         options={{
           tabBarLabel: "Home",
@@ -33,11 +33,11 @@ function PatientTabNav({ navigation, route }) {
             <Icon name="home" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="User"
         component={User}
-        initialParams={{ item: route.params.item, token: route.params.token }}
+        initialParams={{ item: route.params.item, token: route.params.token,currentUser:route.params.currentUser}}
         options={{
           tabBarLabel: "Patient Details",
           tabBarColor: "#009387",
@@ -48,13 +48,13 @@ function PatientTabNav({ navigation, route }) {
       />
       <Tab.Screen
         name="Message"
-        component={Message}
-        initialParams={{ item: route.params.token, user: route.params.item }}
+        component={MessageScreen}
+        initialParams={{ token: route.params.token, item: route.params.item,currentUser:route.params.currentUser }}
         options={{
           headerStyle: {
             backgroundColor: "#1f65ff",
           },
-          tabBarLabel: "Message",
+          tabBarLabel: "MessageScreen",
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (
             <Icon name="message-text-outline" color={color} size={26} />

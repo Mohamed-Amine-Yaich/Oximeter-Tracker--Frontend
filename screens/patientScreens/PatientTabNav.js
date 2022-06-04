@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import HomeScreen from "../Home";
 //this present user details
 import PatientDataScreen from "./PatientDataScreen";
-import PmessageScreen from "./PmessageScreen";
+import MessageScreen from "../MessageScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -22,10 +22,10 @@ function PatientTabNav({ navigation, route }) {
       activeColor="#fff"
       barStyle={{ backgroundColor: "#009387" }}
     >
-     {/*  <Tab.Screen
+      {/*  <Tab.Screen
         name="Home"
         component={HomeScreen} /* send  props the home screen  */
-        /*   not works because the route containe the item(user data) initialParams={{ token: route.params.token }} 
+      /*   not works because the route containe the item(user data) initialParams={{ token: route.params.token }} 
         initialParams={{ token: route.params.token }}
         options={{
           tabBarLabel: "Home",
@@ -38,7 +38,7 @@ function PatientTabNav({ navigation, route }) {
       <Tab.Screen
         name="PatientData"
         component={PatientDataScreen}
-        initialParams={{ item: route.params.item }}
+        initialParams={{ item: route.params.token }}
         options={{
           tabBarLabel: "Patient Details",
           tabBarColor: "#009387",
@@ -49,11 +49,9 @@ function PatientTabNav({ navigation, route }) {
       />
       <Tab.Screen
         name="Message"
-        component={PmessageScreen}
+        component={MessageScreen}
+        initialParams={{ item: route.params.token }}
         options={{
-          headerStyle: {
-            backgroundColor: "#1f65ff",
-          },
           tabBarLabel: "Message",
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (
@@ -67,9 +65,7 @@ function PatientTabNav({ navigation, route }) {
 
 export default PatientTabNav;
 
-
 const PatientDataStack = createStackNavigator();
-
 
 /* const PatientDataStackScreen = ({ navigation,route }) => (
     <PatientDataStack.Navigator

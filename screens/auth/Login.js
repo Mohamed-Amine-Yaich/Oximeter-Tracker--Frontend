@@ -35,10 +35,10 @@ const Login = ({ navigation }) => {
   const { colors } = useTheme();
 
   const [data, setData] = React.useState({
-  /*    email: "doctor1@gmail.com",
-    password: "wiss12345", */
-     email: "amine@gmail.com",
-    password: "wissamine0407", 
+     email: "doctor1@gmail.com",
+    password: "wiss12345", 
+  /*    email: "amine@gmail.com",
+    password: "wissamine0407",  */
     passwordIsValid: true,
     emailIsvalid: true,
     check_textInputChange: false,

@@ -9,8 +9,9 @@ const PatientDataScreen = ({ route, navigation }) => {
    means that we navigate to this screen from the list /or we query for user data from backend  ) 
  */
 
-  const item = route.params.item;
+
   return (
+    /* add the top left button to message screen */
     <View>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <Icon.Button
@@ -21,7 +22,7 @@ const PatientDataScreen = ({ route, navigation }) => {
         onPress={() => navigation.openDrawer()}
       ></Icon.Button>
       <Text> hello from patient data screen</Text>
-      {/*    <Text> {item.name}</Text> */}
+      <Text> {route.params.item}</Text>
     </View>
   );
 };

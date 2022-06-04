@@ -78,3 +78,21 @@ export async function getMe(token) {
     console.log("error in getme service methode:" + error);
   }
 }
+
+export async function getMessages(token) {
+  try {
+    const res = await Client.get("/message", {
+      headers: {
+        authorization: token,
+      },
+    });
+
+ 
+    console.log("response from get messages in service :" );
+    console.log( res);
+
+    /* return allData; */
+  } catch (error) {
+    console.log("error in getme service methode:" + error);
+  }
+}

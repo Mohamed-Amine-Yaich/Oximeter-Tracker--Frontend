@@ -24,11 +24,9 @@ function PatientTabNav({ navigation, route }) {
       <Tab.Screen
         name="Home"
         component={HomeScreen} /* send  props the home screen  */
-     /*   not works because the route containe the item(user data) initialParams={{ token: route.params.token }} */
-     initialParams={{ token: route.params.token }}
-       
-     options={{
-       
+        /*   not works because the route containe the item(user data) initialParams={{ token: route.params.token }} */
+        initialParams={{ token: route.params.token }}
+        options={{
           tabBarLabel: "Home",
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (
@@ -38,8 +36,8 @@ function PatientTabNav({ navigation, route }) {
       />
       <Tab.Screen
         name="User"
-        component={User }
-        initialParams={{ item: route.params.item }}
+        component={User}
+        initialParams={{ item: route.params.item, token: route.params.token }}
         options={{
           tabBarLabel: "Patient Details",
           tabBarColor: "#009387",
@@ -51,6 +49,7 @@ function PatientTabNav({ navigation, route }) {
       <Tab.Screen
         name="Message"
         component={Message}
+        initialParams={{ item: route.params.token, user: route.params.item }}
         options={{
           headerStyle: {
             backgroundColor: "#1f65ff",

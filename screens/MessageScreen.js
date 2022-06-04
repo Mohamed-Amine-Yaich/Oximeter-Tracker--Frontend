@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+/*  import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -260,5 +260,247 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#202020",
     fontWeight: "600",
+  },
+});
+  */
+import Icon from "react-native-vector-icons/Ionicons";
+
+import {getMessages} from "./../api/service";
+
+import React, { Component, useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  ScrollView,
+  TextInput,
+  FlatList,
+  Button,
+} from "react-native";
+
+const MessageScreen = ({ navigation, route }) => {
+  const [message, setMessage] = useState("");
+
+  const [data, setData] = useState([
+    {
+      id: 1,
+      date: "9:50 am",
+      type: "in",
+      message: "Lorem ipsum dolor sit amet",
+    },
+    {
+      id: 2,
+      date: "9:50 am",
+      type: "out",
+      message: "Lorem ipsum dolor sit amet",
+    },
+    {
+      id: 3,
+      date: "9:50 am",
+      type: "in",
+      message: "Lorem ipsum dolor sit a met",
+    },
+    {
+      id: 4,
+      date: "9:50 am",
+      type: "in",
+      message: "Lorem ipsum dolor sit a met",
+    },
+    {
+      id: 5,
+      date: "9:50 am",
+      type: "out",
+      message: "Lorem ipsum dolor sit a met",
+    },
+    {
+      id: 6,
+      date: "9:50 am",
+      type: "out",
+      message: "Lorem ipsum dolor sit a met",
+    },
+    {
+      id: 7,
+      date: "9:50 am",
+      type: "in",
+      message: "Lorem ipsum dolor sit a met",
+    },
+    {
+      id: 8,
+      date: "9:50 am",
+      type: "in",
+      message: "Lorem ipsum dolor sit a met",
+    },
+    {
+      id: 9,
+      date: "9:50 am",
+      type: "in",
+      message: "Lorem ipsum dolor sit a met",
+    },
+  ]);
+
+  /* get all messages  */
+  useEffect(async () => {
+    const data = await getMessages(route.params.item);
+    console.log("use effect messsagescreen :"+data);
+  });
+
+  const renderDate = date => {
+    return <Text style={styles.time}>{date}</Text>;
+  };
+
+  const send = () => {
+    console.log(route.params.item);
+    if (message.length > 0) {
+      var messages = data;
+      messages.push({
+        /*     sender :current user      
+        receiver : /*depend of current user  
+        content  : /* message text 
+ */
+        id: Math.floor(Math.random() * 99999999999999999 + 1),
+        data: "10:50",
+        type: "out",
+        message: message,
+      });
+      /* this will update the tab of messages called data (will be set to the messages var that contain new message) */
+      setData(messages);
+      /* send a replay */
+      /*  setTimeout(() => {
+        this.reply();
+      }, 2000); */
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Icon.Button
+        name="ios-menu"
+        size={25}
+        color="#111"
+        backgroundColor="#009387"
+        onPress={() => navigation.openDrawer()}
+      ></Icon.Button>
+      <FlatList
+        style={styles.list}
+        data={data}
+        keyExtractor={item => {
+          return item.id;
+        }}
+        renderItem={({ item }) => {
+          let inMessage = item.type === "in";
+          let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
+          return (
+            <View style={[styles.item, itemStyle]}>
+              {!inMessage && renderDate(item.date)}
+              <View style={[styles.balloon]}>
+                <Text>{item.message}</Text>
+              </View>
+              {inMessage && renderDate(item.date)}
+            </View>
+          );
+        }}
+      />
+      <View style={styles.footer}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            value={message}
+            placeholder="Write a message..."
+            underlineColorAndroid="transparent"
+            onSubmitEditing={() => send()}
+            onChangeText={message => setMessage(message)}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.btnSend}
+          onPress={() => {
+            send();
+          }}
+        >
+          <Image
+            source={{
+              uri: "https://img.icons8.com/small/75/ffffff/filled-sent.png",
+            }}
+            style={styles.iconSend}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+export default MessageScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  list: {
+    paddingHorizontal: 17,
+  },
+  footer: {
+    flexDirection: "row",
+    height: 60,
+    backgroundColor: "#eeeeee",
+    paddingHorizontal: 10,
+    padding: 5,
+  },
+  btnSend: {
+    backgroundColor: "#00BFFF",
+    width: 40,
+    height: 40,
+    borderRadius: 360,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  iconSend: {
+    width: 30,
+    height: 30,
+    alignSelf: "center",
+  },
+  inputContainer: {
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    height: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    marginRight: 10,
+  },
+  inputs: {
+    height: 40,
+    marginLeft: 16,
+    borderBottomColor: "#FFFFFF",
+    flex: 1,
+  },
+  balloon: {
+    maxWidth: 250,
+    padding: 15,
+    borderRadius: 20,
+  },
+  itemIn: {
+    alignSelf: "flex-start",
+  },
+  itemOut: {
+    alignSelf: "flex-end",
+  },
+  time: {
+    alignSelf: "flex-end",
+    margin: 15,
+    fontSize: 12,
+    color: "#808080",
+  },
+  item: {
+    marginVertical: 14,
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#eeeeee",
+    borderRadius: 300,
+    padding: 5,
   },
 });

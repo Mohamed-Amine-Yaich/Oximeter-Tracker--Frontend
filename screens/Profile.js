@@ -79,8 +79,10 @@ maybe user data will not be refreshed when we change it  */
               Last Name : {userData.lastName}
             </Text>
             <Text style={styles.text_header}>Email :{userData.email}</Text>
-            {userData.role === "patient" ? (
+            {userData.role === "patient" ? (<>
               <Text style={styles.text_header}>Device :{userData.device}</Text>
+           {/*    <Text style={styles.text_header}>Doctor :{userData.doctor}</Text> */}
+              </>
             ) : null}
           </View>
         </View>

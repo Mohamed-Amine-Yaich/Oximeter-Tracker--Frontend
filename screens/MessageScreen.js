@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   */
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { getMessages, postMessage } from "./../api/service";
+import { getMessages, getMessagesForPatient,postMessage } from "./../api/service";
 
 import React, { Component, useEffect, useState } from "react";
 import {
@@ -345,15 +345,20 @@ const MessageScreen = ({ navigation, route }) => {
   useEffect(async () => {
     /* console.log("receiver :" + route.params.item.id); */
 
-    route.params.currentUser.role === "doctor"
-      ? (receiver = route.params.item.id)
-      : route.params.currentUser.role === "patient"
-      ? null
-      : null;
+    if( route.params.currentUser.role === "doctor"){
+      let  receiver = route.params.item.id
+   const  data = await getMessages(route.params.token, receiver);
+   setData(data);
+    }
+      else if (route.params.currentUser.role === "patient")
+      {
+  const    data = await getMessagesForPatient(route.params.token,null);
+     setData(data);
+      }
+      
 
-    const data = await getMessages(route.params.token, receiver);
     console.log("use effect messsagescreen :" + data);
-    setData(data);
+    
   }, []);
 
   const renderDate = date => {
@@ -369,11 +374,11 @@ const MessageScreen = ({ navigation, route }) => {
         content  : /* message text 
  */
       messages.push({
-             key: Math.floor(Math.random() * 99999999999999999 + 1), 
-        sender: route.params.currentUser.id,
+              id: Math.floor(Math.random() * 99999999999999999 + 1), 
+       /* sender: route.params.currentUser.id,
         receiver: !route.params.item
           ? route.params.currentUser.doctor
-          : route.params.item.id,
+          : route.params.item.id, */
         content: message,
         createdAt: Date.now() /* .toPrecision() */,
       });
@@ -412,9 +417,10 @@ create method to post to database*/
       ) : null}
 
       <FlatList
+     /*  inverted={-1} */
         style={styles.list}
         data={data}
-        keyExtractor={item => {
+        keyExtractor={(item) => {
           return item.id;
         }}
         renderItem={({ item }) => {
@@ -422,7 +428,8 @@ create method to post to database*/
           let inMessage = route.params.currentUser.id === item.receiver;
           let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
           return (
-            <View style={[styles.item, itemStyle]}>
+            /* key solve the error each child should have a unique key prop */
+            <View key={item.id} style={[styles.item, itemStyle]}>
               {!inMessage && renderDate(item.createdAt)}
               <View style={[styles.balloon]}>
                 <Text>{item.content}</Text>

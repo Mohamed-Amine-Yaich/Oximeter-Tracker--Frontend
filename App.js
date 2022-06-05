@@ -137,6 +137,9 @@ export default function App() {
         console.log("form get All user" + userData);
         return userData.patientList;
       },
+      updateUserData : (updatedData)=>{
+        setUserData(updatedData)
+      },
       getToken: async () => {
         console.log("form get Token usememo : " + asyncToken);
         /*    console.log(await userToken); */
@@ -154,6 +157,9 @@ export default function App() {
     }),
     []
   );
+
+
+
 
   /* delay before removing the render effect  */
   useEffect(() => {

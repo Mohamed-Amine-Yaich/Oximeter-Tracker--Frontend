@@ -64,6 +64,29 @@ export async function updateMe(data, token) {
   }
 }
 
+export async function updateDoctor(data, token) {
+  try {
+    console.log('updateDoctor')
+    const res = await Client.patch(
+      "/users/updateDoctor",
+      { ...data },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    console.log("updatedUser");
+    console.log(res.data.data);
+    return res.data.data;
+  } catch (error) {
+    console.log("error in updateMe service methode:" + error);
+  }
+}
+
+
+
+
 export async function getMe(token) {
   try {
     const res = await Client.get("/users/getMe", {
@@ -79,6 +102,8 @@ export async function getMe(token) {
   }
 }
 
+
+/* get all messages for the doctor  */
 export async function getMessages(token, receiver) {
   try {
     const res = await Client.get(`/users/receiver/${receiver}/`, {
@@ -88,6 +113,23 @@ export async function getMessages(token, receiver) {
     });
 
     console.log("response from get messages in service :");
+    console.log(res.data.data.document); /* array of all messagesmessages */
+    const tabOfmsg = res.data.data.document;
+    return tabOfmsg;
+  } catch (error) {
+    console.log("error in getme service methode:" + error);
+  }
+}
+/* get all message for patient   */
+export async function getMessagesForPatient(token) {
+  try {
+    const res = await Client.get('/message', {
+      headers: {
+        authorization: token,
+      },
+    });
+
+    console.log("response from get messages For patient in service :");
     console.log(res.data.data.document); /* array of all messagesmessages */
     const tabOfmsg = res.data.data.document;
     return tabOfmsg;
@@ -116,3 +158,4 @@ export async function postMessage(token, receiver, content) {
     console.log("error in getme service methode:" + error);
   }
 }
+

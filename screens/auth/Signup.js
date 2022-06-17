@@ -38,9 +38,9 @@ const Signup = ({ navigation }) => {
   const [SignupResponse, setSignupResponse] = React.useState(null);
   const [data, setData] = React.useState({
     name: "mohamed amine",
-    email: "amine@gmail.com",
-    password: "wissamine0407",
-    confirmPassword: "wissamine0407",
+    email: "amine0407@gmail.com",
+    password: "amine1234",
+    confirmPassword: "amine1234",
     check_textInputChange_email: false,
     check_textInputChange_name: false,
 

@@ -36,10 +36,15 @@ const Login = ({ navigation }) => {
 
   const [data, setData] = React.useState({
     /*  email: "doctor1@gmail.com",
-    password: "wiss12345", */ 
-      email: "amine@gmail.com",
-    password: "wissamine0407",   
-    passwordIsValid: true, 
+    password: "wiss12345",  */
+    /*   email: "amine@gmail.com",
+    password: "wissamine0407", */
+     email: "admin@gmail.com",
+    password: "wiss12345", 
+    /* email: "",
+    password: "", */
+
+    passwordIsValid: true,
     emailIsvalid: true,
     check_textInputChange: false,
     secureTextEntry: true,
@@ -200,7 +205,10 @@ const Login = ({ navigation }) => {
             secureTextEntry={data.secureTextEntry}
             style={[styles.textInput, { color: colors.text }]}
             autoCapitalize="none"
-            onChangeText={val => handelPasswordChange(val)}
+            onChangeText={val => {
+              console.log(val);
+              handelPasswordChange(val);
+            }}
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (

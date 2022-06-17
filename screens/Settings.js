@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { StatusBar } from "expo-status-bar";
+
 import { LinearGradient } from "expo-linear-gradient";
 
 import { AuthContext } from "./../components/context";

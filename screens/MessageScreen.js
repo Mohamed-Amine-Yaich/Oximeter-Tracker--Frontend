@@ -265,7 +265,11 @@ const styles = StyleSheet.create({
   */
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { getMessages, getMessagesForPatient,postMessage } from "./../api/service";
+import {
+  getMessages,
+  getMessagesForPatient,
+  postMessage,
+} from "./../api/service";
 
 import React, { Component, useEffect, useState } from "react";
 import {
@@ -345,20 +349,16 @@ const MessageScreen = ({ navigation, route }) => {
   useEffect(async () => {
     /* console.log("receiver :" + route.params.item.id); */
 
-    if( route.params.currentUser.role === "doctor"){
-      let  receiver = route.params.item.id
-   const  data = await getMessages(route.params.token, receiver);
-   setData(data);
+    if (route.params.currentUser.role === "doctor") {
+      let receiver = route.params.item.id;
+      const data = await getMessages(route.params.token, receiver);
+      setData(data);
+    } else if (route.params.currentUser.role === "patient") {
+      const data = await getMessagesForPatient(route.params.token, null);
+      setData(data);
     }
-      else if (route.params.currentUser.role === "patient")
-      {
-  const    data = await getMessagesForPatient(route.params.token,null);
-     setData(data);
-      }
-      
 
     console.log("use effect messsagescreen :" + data);
-    
   }, []);
 
   const renderDate = date => {
@@ -374,8 +374,8 @@ const MessageScreen = ({ navigation, route }) => {
         content  : /* message text 
  */
       messages.push({
-              id: Math.floor(Math.random() * 99999999999999999 + 1), 
-       /* sender: route.params.currentUser.id,
+        id: Math.floor(Math.random() * 99999999999999999 + 1),
+        /* sender: route.params.currentUser.id,
         receiver: !route.params.item
           ? route.params.currentUser.doctor
           : route.params.item.id, */
@@ -408,6 +408,7 @@ create method to post to database*/
     <View style={styles.container}>
       {route.params.currentUser.role === "patient" ? (
         <Icon.Button
+        borderRadius={0}
           name="ios-menu"
           size={25}
           color="#111"
@@ -417,19 +418,22 @@ create method to post to database*/
       ) : null}
 
       <FlatList
-     /*  inverted={-1} */
+        /*  inverted={-1} */
         style={styles.list}
         data={data}
-        keyExtractor={(item) => {
-          return item.id;
+        keyExtractor={item => {
+           return item.id;
         }}
-        renderItem={({ item }) => {
+        key={item => {
+        item.id;
+        }}
+        renderItem={({ item}) => {
           /* in message is received message that current user (current user is sender) */
           let inMessage = route.params.currentUser.id === item.receiver;
           let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
           return (
             /* key solve the error each child should have a unique key prop */
-            <View key={item.id} style={[styles.item, itemStyle]}>
+            <View style={[styles.item, itemStyle]}>
               {!inMessage && renderDate(item.createdAt)}
               <View style={[styles.balloon]}>
                 <Text>{item.content}</Text>

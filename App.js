@@ -37,7 +37,17 @@ import { DrawerContent } from "./screens/DrawerContent";
 import { PatientDrawerContent } from "./screens/PatientDrawerContent";
 import ProfileStackScreens from "./screens/profileStack/ProfileStack";
 import PatientTabNav from "./screens/patientScreens/PatientTabNav";
-import { set } from "react-native-reanimated";
+import Account from "./screens/screensTemplate/Account";
+import Rewards from "./screens/screensTemplate/Rewards";
+import BookmarkScreen from "./screens/drawerNavigationScreens/BookmarkScreen";
+/* admin screen */
+import Overview from "./screens/admin/Overview";
+import Doctors from "./screens/admin/Doctors";
+import Patients from "./screens/admin/Patients";
+import Settings from "./screens/admin/Settings";
+import CommunList from './screens/CommunList';
+import AboutDoctor from './screens/profileStack/AboutDoctor';
+import PatientDataScreen from './screens/patientScreens/PatientDataScreen'
 
 export default function App() {
   const [isLoding, setIsLoading] = useState(true);
@@ -137,8 +147,8 @@ export default function App() {
         console.log("form get All user" + userData);
         return userData.patientList;
       },
-      updateUserData : (updatedData)=>{
-        setUserData(updatedData)
+      updateUserData: updatedData => {
+        setUserData(updatedData);
       },
       getToken: async () => {
         console.log("form get Token usememo : " + asyncToken);
@@ -157,9 +167,6 @@ export default function App() {
     }),
     []
   );
-
-
-
 
   /* delay before removing the render effect  */
   useEffect(() => {
@@ -199,19 +206,15 @@ export default function App() {
                       <Drawer.Screen
                         name="Patients"
                         component={PatientStackScreen}
-                        initialParams={{ token: userToken, currentUser :userData   }}
+                        initialParams={{
+                          token: userToken,
+                          currentUser: userData,
+                        }}
                       />
 
-                      {/*   <Drawer.Screen
-                      name="MainTabScreen"
-                      component={MainTabScreen}
-                      initialParams={{ token: userToken }}
-                    /> */}
-                      {/*  <Drawer.Screen name="Sort" component={SupportScreen} /> */}
-                      {/* */}
                       <Drawer.Screen
                         name="Bookmarks"
-                        component={bookmark}
+                        component={BookmarkScreen}
                         initialParams={{ token: userToken }}
                       />
 
@@ -235,27 +238,17 @@ export default function App() {
                       <Drawer.Screen
                         name="Details"
                         component={PatientTabNav}
-                        initialParams={{ token: userToken , currentUser :userData   }}
+                        initialParams={{
+                          token: userToken,
+                          currentUser: userData,
+                        }}
                       />
 
                       <Drawer.Screen
                         name="Bookmarks"
-                        component={bookmark}
+                        component={BookmarkScreen}
                         initialParams={{ token: userToken }}
-                        options={{
-                          headerStyle: {
-                            backgroundColor: "#009387",
-                          },
-                          headerLeft: () => (
-                            <Icon.Button
-                              name="ios-menu"
-                              size={25}
-                              color="#111"
-                              backgroundColor="#009387"
-                              onPress={() => navigation.openDrawer()}
-                            ></Icon.Button>
-                          ),
-                        }}
+                        /*  */
                       />
 
                       {/* this will be changed to profileStack  */}
@@ -267,7 +260,57 @@ export default function App() {
                     </Drawer.Navigator>
                   );
                 case "admin":
-                  return <Text>hello  admin</Text>;
+                  return (
+                    <Drawer.Navigator
+                      //this is a propr in the drawer navigator to pass props the DrawerContent
+                      //=>to pass data to the drawer use drawerContent and pass the props to a DrawerContent Component
+                      drawerContent={props => (
+                        <DrawerContent {...props} {...userData} />
+                      )}
+                    >
+                      {/* passing props (token to the main tab screen and then to the home then use service to get user data  */}
+
+                      <Drawer.Screen
+                        name="Overview"
+                        component={Overview}
+                        initialParams={{
+                          token: userToken,
+                          currentUser: userData,
+                        }}
+                      />
+
+                      <Drawer.Screen
+                        name="Patients"
+                        component={Patients}
+                        initialParams={{ token: userToken }}
+                      />
+
+                      <Drawer.Screen
+                        name="Doctors"
+                        component={Doctors}
+                        initialParams={{ token: userToken }}
+                      
+                      />
+                      <Drawer.Screen
+                        name="Settings"
+                        component={Settings}
+                        initialParams={{ token: userToken }}
+                       
+                      />
+                       <Drawer.Screen
+                        name="AboutDoctor"
+                        component={AboutDoctor}
+                        initialParams={{ token: userToken }}
+                       
+                      />
+                      <Drawer.Screen
+                        name="PatientDataScreen"
+                        component={PatientDataScreen}
+                        initialParams={{ token: userToken }}
+                       
+                      />  
+                    </Drawer.Navigator>
+                  );
                 default:
                   return null;
               }

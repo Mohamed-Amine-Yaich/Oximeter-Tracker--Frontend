@@ -143,7 +143,8 @@ export function DrawerContent(props) {
               </TouchableRipple>
             </Drawer.Section>
           </View>
-        ) : props.role === "patient" ? (
+        ) : /*  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+        props.role === "patient" ? (
           <View
             style={styles.drawerContent /* , { backgroundColor: "#000" } */}
           >
@@ -231,7 +232,109 @@ export function DrawerContent(props) {
               </TouchableRipple>
             </Drawer.Section>
           </View>
+        ) : /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+        props.role === "admin" ? (
+          <View
+            style={styles.drawerContent /* , { backgroundColor: "#000" } */}
+          >
+            <View
+              style={styles.userInfoSection /* , { backgroundColor: "red" } */}
+            >
+              {/* img, name , id */}
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <Avatar.Image
+                  source={{
+                    uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
+                  }}
+                  size={50}
+                />
+                <View style={{ marginLeft: 15, flexDirection: "column" }}>
+                  <Title style={styles.title}>
+                    {" "}
+                    {props.name} {props.lastName}
+                  </Title>
+
+                  <Caption style={styles.caption}>Email:{props.email}</Caption>
+                </View>
+              </View>
+
+              <View style={styles.row}></View>
+              {/*/ information about the user */}
+            </View>
+
+            <Drawer.Section>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="bookmark-outline" color={color} size={size} />
+                )}
+                label="Overview"
+                onPress={() => {
+                  {
+                    props.navigation.navigate("Overview");
+                  }
+                }}
+              />
+            </Drawer.Section>
+
+            <Drawer.Section>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="account-cog-outline" color={color} size={size} />
+                )}
+                label="Doctors"
+                /* to navgate we use the props that we pass into the DrawerContent  */
+                onPress={() => {
+                  props.navigation.navigate("Doctors");
+                }}
+              />
+            </Drawer.Section>
+
+            <Drawer.Section>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="account-group" color={color} size={size} />
+                )}
+                label="Patients"
+                onPress={() => {
+                  props.navigation.navigate("Patients");
+                }}
+              />
+            </Drawer.Section>
+
+            <Drawer.Section>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="cog" color={color} size={size} />
+                )}
+                label="Settings"
+                onPress={() => {
+                  props.navigation.navigate("Settings");
+                }}
+              />
+            </Drawer.Section>
+
+            {/* !!!!!!!!!!add support drawer section or other section */}
+
+            {/* toggle theme Switch button */}
+            {/* we use the state and we toggel the state every time we press on the touchable Ripple */}
+            <Drawer.Section title="Preferences">
+              <TouchableRipple
+                onPress={() => {
+                  toggelAppTheme();
+                }}
+              >
+                <View style={styles.preference}>
+                  <Text>Dark Theme</Text>
+                  <View pointerEvents="none">
+                    {/* using useTheme hook from the react native library  */}
+                    <Switch value={paperTheme.dark} />
+                  </View>
+                </View>
+              </TouchableRipple>
+            </Drawer.Section>
+          </View>
         ) : null}
+        {/* end of roles */}
       </DrawerContentScrollView>
 
       {/* log out button */}

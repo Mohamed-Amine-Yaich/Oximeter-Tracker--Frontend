@@ -11,6 +11,7 @@ import {
   Platform,
   RefreshControl,
 } from "react-native";
+import { Caption, Paragraph } from "react-native-paper";
 
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
@@ -25,25 +26,20 @@ function Profile({ navigation, route }) {
   const { colors } = useTheme();
   const [userData, setUserData] = React.useState(null);
 
-
-  
-/* refrech the page */
+  /* refrech the page */
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus',async () => {
+    const unsubscribe = navigation.addListener("focus", async () => {
       const userData = await getMe(route.params.token);
       console.log("userData" + userData);
-     
+
       if (userData) {
         setUserData(userData);
       }
-
     });
     return unsubscribe;
   }, [navigation]);
 
-
-
-/* the request is not useless cause when data change we need to request again
+  /* the request is not useless cause when data change we need to request again
 pass the currentUser to the profile stack in intialparams 
 maybe user data will not be refreshed when we change it  */
   React.useEffect(async () => {
@@ -57,11 +53,7 @@ maybe user data will not be refreshed when we change it  */
   }, []);
   if (userData) {
     return (
-      
-      <View
-        style={styles.container}
-        
-      >
+      <View style={styles.container}>
         <StatusBar backgroundColor="#009387" barStyle="light-content" />
 
         {/* header */}
@@ -73,17 +65,6 @@ maybe user data will not be refreshed when we change it  */
                 uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
               }}
             />
-
-            <Text style={styles.text_header}>Name : {userData.name} </Text>
-            <Text style={styles.text_header}>
-              Last Name : {userData.lastName}
-            </Text>
-            <Text style={styles.text_header}>Email :{userData.email}</Text>
-            {userData.role === "patient" ? (<>
-              <Text style={styles.text_header}>Device :{userData.device}</Text>
-           {/*    <Text style={styles.text_header}>Doctor :{userData.doctor}</Text> */}
-              </>
-            ) : null}
           </View>
         </View>
 
@@ -92,6 +73,46 @@ maybe user data will not be refreshed when we change it  */
           style={[styles.footer, { backgroundColor: colors.background }]}
           animation="fadeInUpBig"
         >
+          <View style={{ marginBottom: 70,alignItems:'center' }}>
+            
+            
+            <View style={[styles.section]}>
+              <View style={{ marginRight: 70,marginBottom:50 }}>
+                <Text style={[styles.text_footer,{ fontWeight: 'bold' }]}>Name</Text>
+                <Text style={styles.text_footer}>{userData.name}</Text>
+              </View>
+              <View>
+                <Text style={[styles.text_footer,{ fontWeight: 'bold' }]}>LastName</Text>
+                <Text style={styles.text_footer}>{userData.lastName}</Text>
+              </View>
+            </View>
+
+            <View style={[styles.section,styles.text_footer]}>
+              <View style={{ marginRight: 70 }}>
+                <Text style={[styles.text_footer,{ fontWeight: 'bold' }]}>Email</Text>
+                <Text style={styles.text_footer}>{userData.email}</Text>
+              </View>
+             
+              {userData.role === "patient" ? (
+              <View >
+                <Text style={[styles.text_footer,{ fontWeight: 'bold' }]}> Device</Text>
+                <Text  style={styles.text_footer} >
+                {userData.device}
+                </Text>
+              
+              </View>
+               ) : null}
+            </View>
+
+
+            
+            
+            
+            
+            
+            
+          </View>
+
           {/* costume button  */}
           <View style={styles.button}>
             {/* udateme button */}
@@ -161,52 +182,8 @@ const styles = StyleSheet.create({
     borderRadius: 63,
     borderWidth: 4,
     borderColor: "white",
-    marginBottom: 10,
+    marginTop: 0,
   },
-  /*  name: {
-    fontSize: 16,
-    color: "#000000",
-    fontWeight: "600",
-  },
-  userInfo: {
-    fontSize: 16,
-    color: "#778899",
-    fontWeight: "600",
-  },
-  body: {
-    backgroundColor: "#009387",
-    height: 500,
-    alignItems: "center",
-  },
-  item: {
-    flexDirection: "row",
-  },
-  infoContent: {
-    flex: 1,
-    alignItems: "flex-start",
-    paddingLeft: 5,
-  },
-  iconContent: {
-    flex: 1,
-    alignItems: "flex-end",
-    paddingRight: 5,
-  }, */
-  /*  icon: {
-    width: 30,
-    height: 30,
-    marginTop: 20,
-  },
-  buttonContainer: {
-    marginTop: 10,
-    height: 45,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20,
-    width: 250,
-    borderRadius: 30,
-    backgroundColor: "#00BFFF",
-  }, */
   info: {
     fontSize: 18,
     marginTop: 20,
@@ -218,10 +195,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#009387",
   },
   header: {
-    flex: 4,
+    flex: 1,
     justifyContent: "flex-end",
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingBottom: 7,
     alignItems: "center",
   },
   footer: {
@@ -247,6 +224,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#f2f2f2",
     paddingBottom: 5,
+  },
+  section: {
+    flexDirection: "row",
+    
   },
 
   button: {

@@ -22,6 +22,7 @@ const PatientStackScreen = ({ navigation, route }) => (
         },
         headerLeft: () => (
           <Icon.Button
+          borderRadius={0}
             name="ios-menu"
             size={25}
             color="#111"

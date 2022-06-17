@@ -1,24 +1,38 @@
-/* import React, { Component } from "react";
+/* import React, { Component, useEffect, useState } from "react";
 import { View, Text, Button, TouchableOpacity, StatusBar } from "react-native";
+import { useTheme } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/Ionicons";
+import Settings from './Settings';
 
-function UpdateDoctor({ navigation }) {
-  useEffect(async () => {
-    const data = await getAllService(route.params.token);
-    setDoctors(data);
-    console.log("doctor list :" + data);
-  }, []);
+function Patients({ navigation, route }) {
+ 
 
+  //change the color of the home screen depend on the app
+  const { colors } = useTheme();
+
+  //check the dark propr return true if dark
+  //use for change the color of the status bar
+  const theme = useTheme();
+
+ 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
-
-      <Text> this is update doctor screen</Text>
+      <Icon.Button
+        name="ios-menu"
+        borderRadius={0}
+        size={25}
+        color="#111"
+        backgroundColor="#009387"
+        onPress={() => navigation.openDrawer()}
+      ></Icon.Button>
+      <Text> this is Patients Screen</Text>
+    
     </View>
   );
 }
-export default UpdateDoctor; */
-
-import React, { Component, useState, useEffect } from "react";
+export default Patients; */
+import React, { Component, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -31,62 +45,49 @@ import {
   FlatList,
   StatusBar,
 } from "react-native";
+import { useTheme } from "@react-navigation/native";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAllPatientsAdmin } from "../../api/service";
 
-import { getAllService } from "../api/service";
-//import { AuthContext } from "../../components/context";
+import Icon from "react-native-vector-icons/Ionicons";
+function Patients({ navigation, route }) {
+  //change the color of the home screen depend on the app
 
-/* passing the token as prop in tab navigation */
-const CommunList = ({ navigation, route }) => {
-  //const { getToken } = React.useContext(AuthContext);
+  const { colors } = useTheme();
+
+  //check the dark propr return true if dark
+  //use for change the color of the status bar
+  const theme = useTheme();
   const [list, setList] = useState(null);
   /*  const [value, setValue] = useState(null); */
 
   useEffect(async () => {
-    const data = await getAllService(route.params.token);
+    const data = await getAllPatientsAdmin(route.params.token);
     setList(data);
-    console.log("doctor list :" + data);
+    console.log(" list of users :" + data);
   }, []);
 
   const renderTags = item => {
-    return (<>
-      <TouchableOpacity style={styles.btnColor}>
-        <Text>{item.email}</Text>
-      </TouchableOpacity>
-      {item.role ==="patient"?<TouchableOpacity
-        style={styles.btnColor}
-        onPress={() => {
-          /* about device another screen descripbe the device !!! */
-        }}
-      >
-        <Text>device: {item.device}</Text>
-        
-      </TouchableOpacity>:null}
+    return (
+      <>
+        <TouchableOpacity style={styles.btnColor}>
+          <Text>{item.email}</Text>
+        </TouchableOpacity>
       </>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <View style={styles.formContent}>
-        <View style={styles.inputContainer}>
-          <Image
-            style={[styles.icon, styles.inputIcon]}
-            source={{
-              uri: "https://png.icons8.com/search/androidL/100/000000",
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            /*      ref={"txtSearch"} */
-            placeholder="Search"
-            underlineColorAndroid="transparent"
-            /*   onChangeText={name_address => this.setState({ name_address })} */
-          />
-        </View>
-      </View>
+      <Icon.Button
+        name="ios-menu"
+        borderRadius={0}
+        size={25}
+        color="#111"
+        backgroundColor="#009387"
+        onPress={() => navigation.openDrawer()}
+      ></Icon.Button>
 
       <FlatList
         style={styles.notificationList}
@@ -98,33 +99,20 @@ const CommunList = ({ navigation, route }) => {
               onPress={() => {
                 /* when we press on a doctor we navigate to doctor about screen  that describe the specific doctor */
 
-                {/* role of the usercard not the user of the app */
-                  item.role === "patient"
-                    ? navigation.navigate("PatientTabNav", { item })
-                    : item.role === "doctor"
-                    ? navigation.navigate("AboutDoctor", { item })
-                    : null;
-                }
+                navigation.navigate("PatientDataScreen", { item });
               }}
             >
               <View style={styles.cardContent}>
-                {item.role === "doctor" ? (
-                  <Image
-                    style={[styles.image, styles.imageContent]}
-                    source={{
-                      uri: "https://bootdey.com/img/Content/avatar/avatar1.png",
-                    }}
-                  />
-                ) : item.role === "patient" ? (
-                  <Image
-                    style={[styles.image, styles.imageContent]}
-                    source={{
-                      uri: "https://bootdey.com/img/Content/avatar/avatar2.png",
-                    }}
-                  />
-                ) : null}
+                <Image
+                  style={[styles.image, styles.imageContent]}
+                  source={{
+                    uri: "https://bootdey.com/img/Content/avatar/avatar2.png",
+                  }}
+                />
+
                 <Text style={styles.name}>
-                  {item.role} <Text style={{fontWeight:'normal'}}>{item.name}{" "}</Text> 
+                  {item.role}{" "}
+                  <Text style={{ fontWeight: "normal" }}>{item.name} </Text>
                 </Text>
               </View>
               <View style={[styles.cardContent, styles.tagsContent]}>
@@ -138,8 +126,8 @@ const CommunList = ({ navigation, route }) => {
       />
     </View>
   );
-};
-export default CommunList;
+}
+export default Patients;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -15,6 +15,37 @@ export async function getAllService(token) {
     console.log("error in getAll service methode:" + error);
   }
 }
+export async function getAllDoctorsAdmin(token) {
+  try {
+    const res = await Client.get("/users/doctors", {
+      headers: {
+        authorization: token,
+      },
+    });
+    console.log("response data(patient for doctor and doctors for client) :");
+    console.log(res.data.data);
+    const allData = res.data.data;
+    return allData;
+  } catch (error) {
+    console.log("error in getAll service methode:" + error);
+  }
+}
+
+export async function getAllPatientsAdmin(token) {
+  try {
+    const res = await Client.get("/users/patients", {
+      headers: {
+        authorization: token,
+      },
+    });
+    console.log("get all patients :");
+    console.log(res.data.data);
+    const allData = res.data.data;
+    return allData;
+  } catch (error) {
+    console.log("error in getAll service methode:" + error);
+  }
+}
 
 export async function loginService(data) {
   try {
@@ -66,7 +97,7 @@ export async function updateMe(data, token) {
 
 export async function updateDoctor(data, token) {
   try {
-    console.log('updateDoctor')
+    console.log("updateDoctor");
     const res = await Client.patch(
       "/users/updateDoctor",
       { ...data },
@@ -84,9 +115,6 @@ export async function updateDoctor(data, token) {
   }
 }
 
-
-
-
 export async function getMe(token) {
   try {
     const res = await Client.get("/users/getMe", {
@@ -101,7 +129,6 @@ export async function getMe(token) {
     console.log("error in getme service methode:" + error);
   }
 }
-
 
 /* get all messages for the doctor  */
 export async function getMessages(token, receiver) {
@@ -123,7 +150,7 @@ export async function getMessages(token, receiver) {
 /* get all message for patient   */
 export async function getMessagesForPatient(token) {
   try {
-    const res = await Client.get('/message', {
+    const res = await Client.get("/message", {
       headers: {
         authorization: token,
       },
@@ -158,4 +185,3 @@ export async function postMessage(token, receiver, content) {
     console.log("error in getme service methode:" + error);
   }
 }
-

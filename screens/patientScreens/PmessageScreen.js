@@ -132,6 +132,7 @@ export default class PmessageScreenclass extends Component {
     return (
       <View style={{ flex: 1 }}>
         <Icon.Button
+           borderRadius={0}
           name="ios-menu"
           size={25}
           color="#111"

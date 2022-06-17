@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Image, ScrollView, StyleSheet, TouchableOpacity,View,StatusBar } from "react-native";
+import { Image, ScrollView, StyleSheet, TouchableOpacity,View } from "react-native";
 import rgba from "hex-to-rgba";
 import * as Icon from "react-native-vector-icons";
 import Feather from "react-native-vector-icons/Feather";
 import MatIcon from "react-native-vector-icons/MaterialCommunityIcons";
-
-import IconBtn from "react-native-vector-icons/Ionicons";
 
 // check this lib for more options
 import { CircularProgress } from "react-native-circular-progress";
@@ -15,13 +13,36 @@ import { CircularProgress } from "react-native-circular-progress";
 import { Block, Badge, Card, Text, Progress } from "../components";
 import { theme, mocks } from "../constants";
 
-export default class User extends Component {
-
+export default class Rewards extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: (
+        <Text style={[theme.fonts.header, { paddingLeft: theme.sizes.base }]}>
+          Your Rewards
+        </Text>
+      ),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            resizeMode="contain"
+            source={require("../assets/images/Icon/Back.png")}
+            style={{ width: 20, height: 24, marginRight: theme.sizes.base }}
+          />
+        </TouchableOpacity>
+      )
+    };
+  };
 
   renderMonthly() {
     return (
-      <Card shadow style={{ paddingVertical: theme.sizes.base  }}>
-      
+      <Card shadow style={{ paddingVertical: theme.sizes.padding }}>
+       {/*  <Icon.Button
+        name="ios-menu"
+        size={25}
+        color="#111"
+        backgroundColor="#009387"
+        onPress={() => navigation.openDrawer()}
+      ></Icon.Button> */}
         <Block>
           <Block center>
             <Text h1 primary spacing={1.7}>
@@ -29,7 +50,36 @@ export default class User extends Component {
             </Text>
             <Text spacing={0.7}>The greatest wealth is heath  </Text>
           </Block>
+{/* 
+          <Block color="gray3" style={styles.hLine} />
 
+          <Block row>
+            <Block center>
+              <Text size={20} spacing={0.6} primary style={{ marginBottom: 6 }}>
+              ??
+              </Text>
+              <Text body spacing={0.7}>
+            ???
+              </Text>
+              <Text body spacing={0.7}>
+              ??
+              </Text>
+            </Block>
+
+            <Block flex={false} color="gray3" style={styles.vLine} />
+
+            <Block center>
+              <Text size={20} spacing={0.6} primary style={{ marginBottom: 6 }}>
+                ???
+              </Text>
+              <Text body spacing={0.7}>
+                ???
+              </Text>
+              <Text body spacing={0.7}>
+               ????
+              </Text>
+            </Block>
+          </Block> */}
         </Block>
       </Card>
     );
@@ -37,7 +87,7 @@ export default class User extends Component {
 
   renderRewards() {
     return (
-      <Card shadow style={{ paddingVertical: theme.sizes.base * 1 }}>
+      <Card shadow style={{ paddingVertical: theme.sizes.base * 2 }}>
         <Block center>
           <CircularProgress
             size={214} // can use  with * .5 => 50%
@@ -107,6 +157,78 @@ export default class User extends Component {
 
 
 
+{/* below hart rate */}
+       {/*  <Block row>
+          <Block center flex={0.8}>
+            <Text size={20} spacing={1} primary>
+             84
+            </Text>
+            <Text spacing={0.7}>Trips</Text>
+          </Block>
+
+          <Block center flex={2}>
+            <Text size={20} spacing={1} primary>
+              123
+            </Text>
+            <Text spacing={0.7}>Hours</Text>
+          </Block>
+
+          <Block center flex={0.8}>
+            <Text size={20} spacing={1} primary>
+              2.786
+            </Text>
+            <Text spacing={0.7}>Miles</Text>
+          </Block>
+        </Block>
+
+        <Block color="gray3" style={styles.hLine} /> */}
+
+
+{/* 3 props  */}
+        {/* <Block style={{ marginBottom: theme.sizes.base }}>
+          <Block row space="between" style={{ paddingLeft: 6 }}>
+            <Text body spacing={0.7}>
+              Breaking
+            </Text>
+            <Text caption spacing={0.7}>
+              8.1
+            </Text>
+          </Block>
+          <Progress value={0.81} />
+        </Block>
+
+        <Block style={{ marginBottom: theme.sizes.base }}>
+          <Block row space="between" style={{ paddingLeft: 6 }}>
+            <Text body spacing={0.7}>
+              Speeding
+            </Text>
+            <Text caption spacing={0.7}>
+              9.8
+            </Text>
+          </Block>
+          <Progress value={0.98} />
+        </Block>
+
+        <Block style={{ marginBottom: theme.sizes.base }}>
+          <Block row space="between" style={{ paddingLeft: 6 }}>
+            <Text body spacing={0.7}>
+              Distracted Driving
+            </Text>
+            <Text caption spacing={0.7}>
+              7.4
+            </Text>
+          </Block>
+          <Progress endColor="#D37694" value={0.74} />
+        </Block> */}
+
+        {/* <Block color="gray3" style={styles.hLine} />
+
+        <Block row center space="between">
+          <Text>Total Driver Discount</Text>
+          <Text size={20} spacing={1} primary>
+            $6.71
+          </Text>
+        </Block> */}
       </Card>
     );
   }
@@ -125,13 +247,13 @@ export default class User extends Component {
             Performance History
           </Text>
         </Block>
-        <Card shadow style={{ paddingVertical: theme.sizes.base * 1 ,marginBottom:20}}>
+        <Card shadow style={{ paddingVertical: theme.sizes.base * 2 ,marginBottom:20}}>
         <Block row center space="between">
         <Text size={20} spacing={1} primary>
         <Feather name="trending-down" size={20} />
           </Text>
            <View>
-           <Text size={20} spacing={0.6} primary /* style={{ marginBottom: 6 }} */>
+           <Text size={20} spacing={0.6} primary style={{ marginBottom: 6 }}>
                75 bpm
               </Text>
            <Text>5% less than last month</Text>
@@ -142,14 +264,14 @@ export default class User extends Component {
           </Text>
         </Block>
         </Card>
-        <Card shadow style={{ paddingVertical: theme.sizes.base * 1,marginBottom:100}}>
+        <Card shadow style={{ paddingVertical: theme.sizes.base * 2 ,marginBottom:50}}>
         <Block row center space="between">
         <Text size={20} spacing={1} primary>
         <Feather name="trending-up" size={20} />
             
           </Text>
            <View>
-           <Text size={20} spacing={0.6} primary >
+           <Text size={20} spacing={0.6} primary style={{ marginBottom: 6 }}>
                95 bpm
               </Text>
            <Text>20% Higher Than Last onth</Text>
@@ -185,36 +307,13 @@ export default class User extends Component {
     );
   }
 
-renderButton(){
-return(<Text><IconBtn.Button
-  borderRadius={0}
-  name="ios-menu"
-  size={25}
-  color="#111"
-  style={{width:365}}
-  backgroundColor="#009387"
-  onPress={() => navigation.openDrawer()}
-></IconBtn.Button></Text>
-  
-)
-
-}
-
-     
   render() {
     return (
-      <View>
-           {/*  <StatusBar backgroundColor="#009387" barStyle="light-content" />
-
-      <Text>{this.renderButton()}</Text>    */}
       <ScrollView style={styles.rewards} showsVerticalScrollIndicator={false}>
-   
-   {this.renderMonthly()}
-   {this.renderRewards()}
-   {this.renderChallenges()}
- </ScrollView>
-      </View>
-      
+        {this.renderMonthly()}
+        {this.renderRewards()}
+        {this.renderChallenges()}
+      </ScrollView>
     );
   }
 }

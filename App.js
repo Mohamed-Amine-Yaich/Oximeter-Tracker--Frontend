@@ -45,10 +45,12 @@ import Overview from "./screens/admin/Overview";
 import Doctors from "./screens/admin/Doctors";
 import Patients from "./screens/admin/Patients";
 import Settings from "./screens/admin/Settings";
-import CommunList from './screens/CommunList';
-import AboutDoctor from './screens/profileStack/AboutDoctor';
-import PatientDataScreen from './screens/patientScreens/PatientDataScreen'
-
+import CommunList from "./screens/CommunList";
+import AboutDoctor from "./screens/profileStack/AboutDoctor";
+import PatientDataScreen from "./screens/patientScreens/PatientDataScreen";
+/* ble screens */
+import { RootNavigator } from "./ble/navigation";
+import { DeviceScreen } from "./ble/screens/Device";
 export default function App() {
   const [isLoding, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
@@ -235,6 +237,7 @@ export default function App() {
                       )}
                     >
                       {/* user with patient role must have his own tabnav (the doctor tab nave depend of the list of patient for desplaying the selected patient) */}
+                      <Drawer.Screen name="device" component={RootNavigator} />
                       <Drawer.Screen
                         name="Details"
                         component={PatientTabNav}
@@ -248,7 +251,6 @@ export default function App() {
                         name="Bookmarks"
                         component={BookmarkScreen}
                         initialParams={{ token: userToken }}
-                        /*  */
                       />
 
                       {/* this will be changed to profileStack  */}
@@ -257,6 +259,11 @@ export default function App() {
                         component={ProfileStackScreens}
                         initialParams={{ token: userToken }}
                       />
+                      {/*   <Drawer.Screen
+                        name="Device"
+                        component={DeviceScreen}
+                        
+                        /> */}
                     </Drawer.Navigator>
                   );
                 case "admin":
@@ -289,26 +296,27 @@ export default function App() {
                         name="Doctors"
                         component={Doctors}
                         initialParams={{ token: userToken }}
-                      
                       />
                       <Drawer.Screen
                         name="Settings"
                         component={Settings}
                         initialParams={{ token: userToken }}
-                       
                       />
-                       <Drawer.Screen
+                      <Drawer.Screen
                         name="AboutDoctor"
                         component={AboutDoctor}
-                        initialParams={{ token: userToken }}
-                       
+                        initialParams={{
+                          token: userToken,
+                          currentUser: userData,
+                        }}
                       />
                       <Drawer.Screen
                         name="PatientDataScreen"
                         component={PatientDataScreen}
-                        initialParams={{ token: userToken }}
-                       
-                      />  
+                        initialParams={{
+                          token: userToken,
+                        }}
+                      />
                     </Drawer.Navigator>
                   );
                 default:

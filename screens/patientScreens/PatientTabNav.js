@@ -8,17 +8,20 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 //in the patient tab nav i use 3 screen
 //when we select a user we enter the tab nav that containe userDetails(data),message,home
-import HomeScreen from "../Home";
+/* import HomeScreen from "../Home"; */
 //this present user details
 import PatientDataScreen from "./PatientDataScreen";
 import MessageScreen from "../MessageScreen";
-
+import BluetoothScanner from "../../ble/BluetoothScanner";
+import { HomeScreen } from "../../ble/screens/Home";
+import { DeviceScreen } from "../../ble/screens/Device";
+import { RootNavigator } from "../../ble/navigation";
 const Tab = createMaterialBottomTabNavigator();
 
 function PatientTabNav({ navigation, route }) {
   return (
     <Tab.Navigator
-      initialRouteName="PatientData"
+      initialRouteName="ScanRoot"
       activeColor="#fff"
       barStyle={{ backgroundColor: "#009387" }}
     >
@@ -35,10 +38,61 @@ function PatientTabNav({ navigation, route }) {
           ),
         }}
       /> */}
+      {/*     <Tab.Screen
+        name="ScanRoot"
+        component={RootNavigator}
+        /* initialParams={{
+          token: route.params.token,
+          currentUser: route.params.currentUser,
+        }} 
+        options={{
+          title: "scan devices",
+          tabBarLabel: "Patient Details",
+          tabBarColor: "#009387",
+          tabBarIcon: ({ color }) => (
+            <Icon name="account-details" color={color} size={26} />
+          ),
+        }}
+      /> */}
+      {/*  <Tab.Screen
+        name="ScanDevices"
+        component={HomeScreen} */
+      /* initialParams={{
+          token: route.params.token,
+          currentUser: route.params.currentUser,
+        }} */
+      /*   options={{
+          title: "scan devices",
+          tabBarLabel: "Patient Details",
+          tabBarColor: "#009387",
+          tabBarIcon: ({ color }) => (
+            <Icon name="account-details" color={color} size={26} />
+          ),
+        }}
+      /> */
+      /* <Tab.Screen
+        name="ConnectedDevice"
+        component={DeviceScreen} */
+      /*  initialParams={{
+          token: route.params.token,
+          currentUser: route.params.currentUser,
+        }} */
+      /*  options={{
+          title: "device connected",
+          tabBarLabel: "Patient Details",
+          tabBarColor: "#009387",
+          tabBarIcon: ({ color }) => (
+            <Icon name="account-details" color={color} size={26} />
+          ),
+        }}
+      /> */}
       <Tab.Screen
         name="PatientData"
         component={PatientDataScreen}
-        initialParams={{ token: route.params.token,currentUser : route.params.currentUser }}
+        initialParams={{
+          token: route.params.token,
+          currentUser: route.params.currentUser,
+        }}
         options={{
           tabBarLabel: "Patient Details",
           tabBarColor: "#009387",
@@ -50,7 +104,10 @@ function PatientTabNav({ navigation, route }) {
       <Tab.Screen
         name="Message"
         component={MessageScreen}
-        initialParams={{ token: route.params.token,currentUser : route.params.currentUser }}
+        initialParams={{
+          token: route.params.token,
+          currentUser: route.params.currentUser,
+        }}
         options={{
           tabBarLabel: "Message",
           tabBarColor: "#009387",

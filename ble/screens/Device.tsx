@@ -125,8 +125,10 @@ const DeviceScreen = ({
             <ServiceCard key={id} service={service} />
           )} */}
         {/* navigatinng to patientdata and desplaying data } */}
-{/* works */}
-        {dataService ? <ServiceCard service={dataService} /> : null}
+        {/* works */}
+        {dataService ? (
+          <ServiceCard key={dataService.uuid} service={dataService} />
+        ) : null}
       </View>
     </ScrollView>
   );

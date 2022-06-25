@@ -246,7 +246,7 @@ const CharacteristicCard = ({ char }: CharacteristicCardProps) => {
           title="more details"
           color={"#009387"}
           onPress={() => {
-            navigation.navigate("Details", { values: measure });
+            navigation.navigate("Details", { measure });
           }}
         />
       </View>

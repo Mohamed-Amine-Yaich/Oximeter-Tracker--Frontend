@@ -108,7 +108,7 @@ const PatientDataScreen = ({ navigation, route }) => {
             backgroundColor={theme.colors.gray3}
             backgroundWidth={theme.sizes.base / 2}
           >
-            {!char
+            {!values
               ? () => (
                   <>
                     <Block center middle>

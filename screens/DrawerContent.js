@@ -196,9 +196,10 @@ export function DrawerContent(props) {
                 icon={({ color, size }) => (
                   <Icon name="bookmark-outline" color={color} size={size} />
                 )}
-                label="Bookmarks"
+                label="device settings"
                 onPress={() => {
-                  props.navigation.navigate("Bookmarks");
+                 /*  props.navigation.navigate("Bookmarks"); */
+                  props.navigation.navigate("device");
                 }}
               />
             </Drawer.Section>

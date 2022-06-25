@@ -92,6 +92,7 @@ function PatientTabNav({ navigation, route }) {
         initialParams={{
           token: route.params.token,
           currentUser: route.params.currentUser,
+          Values: route.params.measure,
         }}
         options={{
           tabBarLabel: "Patient Details",

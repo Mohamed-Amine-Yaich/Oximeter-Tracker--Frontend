@@ -13,7 +13,7 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-export const RootNavigator = () => (
+export const RootNavigator = ({ route, navigation }) => (
   /*  <NavigationContainer> */
   <Stack.Navigator mode="card" initialRouteName="Home">
     <Stack.Screen
@@ -36,7 +36,26 @@ export const RootNavigator = () => (
       }}
       component={HomeScreen}
     />
-    <Stack.Screen name="Device" component={DeviceScreen} />
+    <Stack.Screen
+      name="Device"
+      options={{
+        title: "Scan Devices",
+        headerStyle: {
+          backgroundColor: "#009387",
+        },
+        headerLeft: () => (
+          <Icon.Button
+            borderRadius={0}
+            name="ios-menu"
+            size={25}
+            color="#111"
+            backgroundColor="#009387"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+      component={DeviceScreen}
+    />
   </Stack.Navigator>
   /*   </NavigationContainer> */
 );

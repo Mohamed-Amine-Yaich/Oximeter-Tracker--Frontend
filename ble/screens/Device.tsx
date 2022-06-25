@@ -14,14 +14,18 @@ const DeviceScreen = ({
 
   const [isConnected, setIsConnected] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
+  const [dataService, setDataServices] = useState({});
+
+  /*   const [char, setChar] = useState({}); */
 
   // handle the device disconnection
   const disconnectDevice = useCallback(async () => {
-    navigation.goBack();
+    /*    navigation.goBack(); */
     const isDeviceConnected = await device.isConnected();
     if (isDeviceConnected) {
       await device.cancelConnection();
     }
+    navigation.navigate("Home");
   }, [device, navigation]);
 
   useEffect(() => {
@@ -35,11 +39,38 @@ const DeviceScreen = ({
         await connectedDevice.discoverAllServicesAndCharacteristics();
       // get the services only
       const discoveredServices = await allServicesAndCharacteristics.services();
+
       setServices(discoveredServices);
+
+      //display the  service i need and from it get char value
+      await discoveredServices.forEach(service => {
+        if (service.uuid === "0000fe86-0000-1000-8000-00805f9b34fb") {
+          console.log("hi");
+          setDataServices(service);
+        }
+      });
+
+      //save the propriete value of the char that return data
     };
 
-    getDeviceInformations();
+    /*  if (services) {
+      services.forEach(async service => {
+      
+        if (service.uuid === "cdeacb80-5235-4c07-8846-93a37ee6b86d") {
+          console.log(service.uuid);
 
+          const chars = await service.characteristics();
+          chars.forEach(char => {
+            console.log(char.uuid);
+            if (char.uuid === "cdeacb81-5235-4c07-8846-93a37ee6b86d") {
+              console.log("char from device screen" + char.value);
+              setChar(char);
+            }
+          });
+        }
+      });
+    } */
+    getDeviceInformations();
     device.onDisconnected(() => {
       navigation.navigate("Home");
     });
@@ -89,18 +120,13 @@ const DeviceScreen = ({
           />
         </View>
         {/* Display a list of all services */}
-        {/*   {services &&
-          services.map((service, id) => (
+        {/*  {services &&
+          services.map((service, id) => 
             <ServiceCard key={id} service={service} />
-          ))} */}
-        {/* navigatinng to patientdata and desplaying data */}
-        <View style={styles.btnContainer}>
-          <Button
-            title="navigate to details"
-            color={"#009387"}
-            onPress={()=>navigation.navigate("Details")}
-          />
-        </View>
+          )} */}
+        {/* navigatinng to patientdata and desplaying data } */}
+{/* works */}
+        {dataService ? <ServiceCard service={dataService} /> : null}
       </View>
     </ScrollView>
   );

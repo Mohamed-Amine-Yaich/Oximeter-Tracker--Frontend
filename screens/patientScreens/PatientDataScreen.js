@@ -1,38 +1,3 @@
-/* import React, { useState, useEffect } from "react";
-import { View, Text, StatusBar } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-const PatientDataScreen = ({ route, navigation }) => { */
-/* this screen is data screen of patient 
- - when user is a doctor he select the user from the list then user data is passed to  this screen 
- -when user is patient he must require for his data from backend 
- -test depend of the user make a condition or (or if there is an item on the route
-   means that we navigate to this screen from the list /or we query for user data from backend  ) 
- */
-
-/* 
-  return (
-    
-    <View>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <Icon.Button
-        name="ios-menu"
-        size={25}
-        color="#111"
-        backgroundColor="#009387"
-        onPress={() => navigation.openDrawer()}
-      ></Icon.Button>
-      <Text> hello from patient data screen</Text>
-      <Text> {route.params.token}</Text>
-      <Text>current user : {route.params.currentUser.name}</Text>
-      <Text>current user : {route.params.currentUser.lastName}</Text>
-      <Text>current user : {route.params.currentUser.role}</Text>
-      
-
-
-    </View>
-  );
-};
-export default PatientDataScreen; */
 import React, { Component } from "react";
 import {
   Image,
@@ -41,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
+  Dimensions,
 } from "react-native";
 import rgba from "hex-to-rgba";
 import * as Icon from "react-native-vector-icons";
@@ -49,13 +15,66 @@ import MatIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import IconBtn from "react-native-vector-icons/Ionicons";
 
+import { Base64 } from "../../ble/lib/base64";
+
 // check this lib for more options
 import { CircularProgress } from "react-native-circular-progress";
 
 import { Block, Badge, Card, Text, Progress } from "../components";
 import { theme, mocks } from "../constants";
+import { block } from "react-native-reanimated";
 
 const PatientDataScreen = ({ navigation, route }) => {
+  let values = route.params.values;
+  const deviceWidth = Dimensions.get("window").width;
+  /* ble */
+  /* 
+  const [measure, setMeasure] = React.useState({});
+
+  const decodeBleString = (value: string | undefined | null): string => {
+    if (!value) {
+      return "";
+    }
+
+    const raw = Base64.atob(value);
+    let result = "";
+    for (let i = 0; i < raw.length; i++) {
+      const hex = raw.charCodeAt(i).toString(16);
+      result += hex.length === 2 ? hex : "0" + hex;
+    }
+    result.toUpperCase();
+
+    let heartRate = result[2] + result[3];
+    let spo2 = result[4] + result[5];
+    let pi = result[6] + result[7];
+    let intSpo2 = parseInt(spo2, 16);
+    let intHartRate = parseInt(heartRate, 16);
+    let intPi = parseInt(pi, 16);
+    let floatPI = intPi / 10;
+
+    data = { hr: intHartRate, spo2: intSpo2, pi: floatPI };
+    return data;
+  };
+ */
+  React.useEffect(() => {
+    /*  if (char) {
+      char.monitor((err, cha) => {
+        if (err) {
+          console.warn("ERROR");
+          console.log("err in char.monitor");
+          return;
+        }
+        // each received value has to be decoded with a Base64 algorythm you can find on the Internet (or in my repository 😉)
+
+        if (cha?.value?.length === 8) {
+          setMeasure(decodeBleString(cha?.value));
+        }
+      });
+    } */
+  });
+
+  /* ble */
+
   const renderMonthly = () => {
     return (
       <Card shadow style={{ paddingVertical: theme.sizes.base }}>
@@ -73,11 +92,14 @@ const PatientDataScreen = ({ navigation, route }) => {
 
   const renderRewards = () => {
     return (
-      <Card shadow style={{ paddingVertical: theme.sizes.base * 1 }}>
+      <Card
+        shadow
+        style={{ paddingVertical: theme.sizes.base * 1, marginTop: 10 }}
+      >
         <Block center>
           <CircularProgress
-            size={214} // can use  with * .5 => 50%
-            fill={85} // percentage
+            size={300} // can use  with * .5 => 50%
+            fill={100} // percentage
             lineCap="round" // line ending style
             rotation={220}
             arcSweepAngle={280}
@@ -86,28 +108,86 @@ const PatientDataScreen = ({ navigation, route }) => {
             backgroundColor={theme.colors.gray3}
             backgroundWidth={theme.sizes.base / 2}
           >
-            {() => (
-              <Block center middle>
-                <Text h2 medium>
-                  84
-                </Text>
-                <Text h3 transform="uppercase">
-                  good
-                </Text>
-              </Block>
-            )}
+            {!char
+              ? () => (
+                  <>
+                    <Block center middle>
+                      <Text
+                        h2
+                        medium
+                        primary
+                        style={{ marginBottom: 0, fontWeight: "bold" }}
+                      >
+                        {/*   {mesure ? mesure : 85} */}
+                        {values ? values.spo2 : 99}
+                      </Text>
+                      <Text h3 transform="uppercase">
+                        Spo2(%)
+                      </Text>
+                    </Block>
+
+                    <Block row>
+                      <Block center>
+                        <Text
+                          size={20}
+                          spacing={0.6}
+                          primary
+                          style={{ marginBottom: 0, fontWeight: "bold" }}
+                        >
+                          {/*   <MatIcon name="human-male" size={40} /> */}
+                          {values ? values.hr : 70}
+                        </Text>
+                        <Text body spacing={0.7}></Text>
+                        <Text body spacing={0.7}>
+                          BPM
+                        </Text>
+                      </Block>
+
+                      <Block flex={false} color="gray3" style={styles.vLine} />
+
+                      <Block center>
+                        <Text
+                          size={20}
+                          spacing={0.6}
+                          primary
+                          style={{ marginBottom: 6, fontWeight: "bold" }}
+                        >
+                          {/* <MatIcon name="run-fast" size={40} /> */}
+                          {values ? values.pi : 3.5}
+                        </Text>
+                        <Text body spacing={0.7}>
+                          {/*   MAXIMUM */}
+                        </Text>
+                        <Text body spacing={0.7}>
+                          PI(%)
+                        </Text>
+                      </Block>
+                    </Block>
+                  </>
+                )
+              : () => (
+                  <Image
+                    source={require("./../../img/unnamed.png")}
+                    //width and height do not affect
+                    width={1}
+                    height={1}
+                    borderRadius={50}
+                    //style applied
+                    style={{ width: 180, height: 180 }}
+                  />
+                )}
           </CircularProgress>
         </Block>
 
-        <Block center>
+        {/*  <Block center>
           <Text title spacing={1} style={{ marginVertical: 8 }}>
             Heart Rate
           </Text>
           <Text>
             <Text primary>84 </Text>
-            <Text gray /* transform="uppercase" */>bpm</Text>
+            <Text gray>bpm</Text>
           </Text>
-        </Block>
+        </Block> */}
 
         <Block color="gray3" style={styles.hLine} />
 

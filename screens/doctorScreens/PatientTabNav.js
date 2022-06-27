@@ -11,6 +11,7 @@ import HomeScreen from "../Home";
 //this present user details
 import User from "./User";
 import MessageScreen from "../MessageScreen";
+import HistoriquePatientForDoctor from "./HistoriquePatientForDoctor";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -20,7 +21,8 @@ function PatientTabNav({ navigation, route }) {
       initialRouteName="User"
       activeColor="#fff"
       barStyle={{ backgroundColor: "#009387" }}
-    >{/* 
+    >
+      {/* 
       <Tab.Screen
         name="Home"
         component={HomeScreen} /* send  props the home screen  
@@ -34,12 +36,18 @@ function PatientTabNav({ navigation, route }) {
           ),
         }}
       /> */}
+
+      {/* doctor nav to patient historique data */}
       <Tab.Screen
         name="User"
-        component={User}
-        initialParams={{ item: route.params.item, token: route.params.token,currentUser:route.params.currentUser}}
+        component={HistoriquePatientForDoctor}
+        initialParams={{
+          item: route.params.item,
+          token: route.params.token,
+          currentUser: route.params.currentUser,
+        }}
         options={{
-          tabBarLabel: "Patient Details",
+          tabBarLabel: "Patient data history",
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (
             <Icon name="account-details" color={color} size={26} />
@@ -49,7 +57,11 @@ function PatientTabNav({ navigation, route }) {
       <Tab.Screen
         name="Message"
         component={MessageScreen}
-        initialParams={{ token: route.params.token, item: route.params.item,currentUser:route.params.currentUser }}
+        initialParams={{
+          token: route.params.token,
+          item: route.params.item,
+          currentUser: route.params.currentUser,
+        }}
         options={{
           headerStyle: {
             backgroundColor: "#1f65ff",

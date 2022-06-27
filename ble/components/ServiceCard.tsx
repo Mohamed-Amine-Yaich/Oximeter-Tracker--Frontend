@@ -6,13 +6,14 @@ import { DescriptorCard } from "./DescriptorCard";
 
 type ServiceCardProps = {
   service: Service;
+  token: undefined;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UART_SERVICE_UUID =
   "6E400001-B5A3-F393-­E0A9-­E50E24DCCA9E".toLowerCase();
 
-const ServiceCard = ({ service }: ServiceCardProps) => {
+const ServiceCard = ({ service, token }: ServiceCardProps) => {
   const [descriptors, setDescriptors] = useState<Descriptor[]>([]);
   const [characteristics, setCharacteristics] = useState<Characteristic[]>([]);
   const [areCharacteristicsVisible, setAreCharacteristicsVisible] =
@@ -20,12 +21,15 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
 
   const [dataChar, setDataCharacteristics] = useState({});
   useEffect(() => {
+    console.log("service caed passing token");
+    console.log(token);
     const getCharacteristics = async () => {
       const newCharacteristics = await service.characteristics();
       setCharacteristics(newCharacteristics);
       await newCharacteristics.forEach(async characteristic => {
+        console.log(characteristic.uuid);
         //target a specific char
-        if (characteristic.uuid === "0000fe04-0000-1000-8000-00805f9b34fb") {
+        if (characteristic.uuid === "cdeacb81-5235-4c07-8846-93a37ee6b86d") {
           setDataCharacteristics(characteristic);
         }
 
@@ -44,24 +48,21 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
         onPress={() => {
           setAreCharacteristicsVisible(prev => !prev);
         }}
-      >
-      {/*   <Text>{`service UUID : ${service.uuid}`}</Text> */}
-      <Text>pairing and getting data ...</Text>
-      </TouchableOpacity>
+      ></TouchableOpacity>
       {/* works */}
-        {characteristics &&
+      {characteristics &&
         characteristics.map(char =>
-          char.uuid === "0000fe04-0000-1000-8000-00805f9b34fb" ? (
-            <CharacteristicCard key={char.uuid} char={char} />
+          char.uuid === "cdeacb81-5235-4c07-8846-93a37ee6b86d" ? (
+            <CharacteristicCard key={char.uuid} char={char} token={token} />
           ) : null
-        )} 
+        )}
 
       {/*   {descriptors &&
         descriptors.map(descriptor => (
           <DescriptorCard key={descriptor.id} descriptor={descriptor} />
         ))} */}
 
-  {/*     {dataChar ? <CharacteristicCard char={dataChar} /> : null} */}
+      {/*     {dataChar ? <CharacteristicCard char={dataChar} /> : null} */}
     </View>
   );
 };

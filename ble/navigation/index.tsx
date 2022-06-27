@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, Route } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "../screens/Home";
 import { DeviceScreen } from "../screens/Device";
@@ -8,14 +8,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 export type RootStackParamList = {
   Home: undefined;
-  Device: { device: Device };
+  Device: { device: Device; token: undefined; currentUser: undefined };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-export const RootNavigator = ({ route, navigation }) => (
+export const RootNavigator = ({ navigation, route }) => (
   /*  <NavigationContainer> */
-  <Stack.Navigator mode="card" initialRouteName="Home">
+  <Stack.Navigator /* mode="card" initialRouteName="Home" */>
     <Stack.Screen
       name="Home"
       options={{
@@ -38,12 +38,16 @@ export const RootNavigator = ({ route, navigation }) => (
     />
     <Stack.Screen
       name="Device"
+      initialParams={{
+        token: route.params.token,
+        currentUser: route.params.currentUser,
+      }}
       options={{
         title: "Scan Devices",
         headerStyle: {
           backgroundColor: "#009387",
         },
-        headerLeft: () => (
+        headerRight: () => (
           <Icon.Button
             borderRadius={0}
             name="ios-menu"

@@ -185,3 +185,57 @@ export async function postMessage(token, receiver, content) {
     console.log("error in getme service methode:" + error);
   }
 }
+
+export async function saveDataService(token, data) {
+  try {
+    const res = await Client.post(
+      `/data`,
+      { ...data },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+
+    /*   console.log("response saving user data in service:");
+    console.log(res.data.data); */
+    return res.data.data;
+  } catch (error) {
+    console.log("error in getme service methode:" + error);
+  }
+}
+
+// get data for the login user
+export async function getDataForuser(token) {
+  try {
+    const res = await Client.get("/data", {
+      headers: {
+        authorization: token,
+      },
+    });
+
+    console.log("data for doctor");
+
+    return res.data.data;
+  } catch (error) {
+    console.log("error in get data for doctor:" + error);
+  }
+}
+
+export async function getDataForDoctor(token, id) {
+  try {
+    const res = await Client.get(`/data/${id}`, {
+      headers: {
+        authorization: token,
+      },
+    });
+
+    /*   console.log("response saving user data in service:");
+    console.log(res.data.data); */
+    //array of data object
+    return res.data.data;
+  } catch (error) {
+    console.log("error in get data:" + error);
+  }
+}

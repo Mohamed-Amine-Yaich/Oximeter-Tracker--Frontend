@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -24,54 +24,39 @@ import { Block, Badge, Card, Text, Progress } from "../components";
 import { theme, mocks } from "../constants";
 import { block } from "react-native-reanimated";
 
+import { saveDataService } from "../../api/service";
+
 const PatientDataScreen = ({ navigation, route }) => {
   let values = route.params.values;
+  let userId = route.params.currentUser._id;
+  let token = route.params.token;
   const deviceWidth = Dimensions.get("window").width;
-  /* ble */
-  /* 
-  const [measure, setMeasure] = React.useState({});
 
-  const decodeBleString = (value: string | undefined | null): string => {
-    if (!value) {
-      return "";
-    }
-
-    const raw = Base64.atob(value);
-    let result = "";
-    for (let i = 0; i < raw.length; i++) {
-      const hex = raw.charCodeAt(i).toString(16);
-      result += hex.length === 2 ? hex : "0" + hex;
-    }
-    result.toUpperCase();
-
-    let heartRate = result[2] + result[3];
-    let spo2 = result[4] + result[5];
-    let pi = result[6] + result[7];
-    let intSpo2 = parseInt(spo2, 16);
-    let intHartRate = parseInt(heartRate, 16);
-    let intPi = parseInt(pi, 16);
-    let floatPI = intPi / 10;
-
-    data = { hr: intHartRate, spo2: intSpo2, pi: floatPI };
-    return data;
-  };
- */
+  const [saver, setSaver] = useState(false);
   React.useEffect(() => {
-    /*  if (char) {
-      char.monitor((err, cha) => {
-        if (err) {
-          console.warn("ERROR");
-          console.log("err in char.monitor");
-          return;
-        }
-        // each received value has to be decoded with a Base64 algorythm you can find on the Internet (or in my repository 😉)
+    const timer = setTimeout(async () => {
+      ///send data to the the service
+      if (!values) {
+        setSaver(!saver);
+        console.log(userId, token, values);
+        let response = await saveDataService(token, {
+          heart: "70",
+          spo2: "99",
+          pi: "3.5",
+          createdAt: Date.now(),
+        });
+        response
+          ? console.log("data is saved correctly")
+          : console.log("data is not saved");
+      }
+    }, 100000);
+    /* fix your own period to saved data  */
+    return () => clearTimeout(timer);
+  }, [saver]);
 
-        if (cha?.value?.length === 8) {
-          setMeasure(decodeBleString(cha?.value));
-        }
-      });
-    } */
-  });
+  /* how i save data 
+timer will works each periode you set save values if there is one 
+and change the state of the saver as dependency for the useEffect hooks for rerender and resave new values */
 
   /* ble */
 
@@ -108,7 +93,7 @@ const PatientDataScreen = ({ navigation, route }) => {
             backgroundColor={theme.colors.gray3}
             backgroundWidth={theme.sizes.base / 2}
           >
-            {!values
+            {values
               ? () => (
                   <>
                     <Block center middle>
@@ -167,13 +152,13 @@ const PatientDataScreen = ({ navigation, route }) => {
                 )
               : () => (
                   <Image
-                    source={require("./../../img/unnamed.png")}
+                    source={require("./../../img/oxymeter.png")}
                     //width and height do not affect
                     width={1}
                     height={1}
                     borderRadius={50}
                     //style applied
-                    style={{ width: 180, height: 180 }}
+                    style={{ width: 200, height: 200 }}
                   />
                 )}
           </CircularProgress>
@@ -328,3 +313,48 @@ const styles = StyleSheet.create({
     width: 1,
   },
 });
+
+/* ble */
+/* 
+  const [measure, setMeasure] = React.useState({});
+
+  const decodeBleString = (value: string | undefined | null): string => {
+    if (!value) {
+      return "";
+    }
+
+    const raw = Base64.atob(value);
+    let result = "";
+    for (let i = 0; i < raw.length; i++) {
+      const hex = raw.charCodeAt(i).toString(16);
+      result += hex.length === 2 ? hex : "0" + hex;
+    }
+    result.toUpperCase();
+
+    let heartRate = result[2] + result[3];
+    let spo2 = result[4] + result[5];
+    let pi = result[6] + result[7];
+    let intSpo2 = parseInt(spo2, 16);
+    let intHartRate = parseInt(heartRate, 16);
+    let intPi = parseInt(pi, 16);
+    let floatPI = intPi / 10;
+
+    data = { hr: intHartRate, spo2: intSpo2, pi: floatPI };
+    return data;
+  };
+   /* 
+   this was in use effect
+   if (char) {
+      char.monitor((err, cha) => {
+        if (err) {
+          console.warn("ERROR");
+          console.log("err in char.monitor");
+          return;
+        }
+        // each received value has to be decoded with a Base64 algorythm you can find on the Internet (or in my repository 😉)
+
+        if (cha?.value?.length === 8) {
+          setMeasure(decodeBleString(cha?.value));
+        }
+      });
+    } */

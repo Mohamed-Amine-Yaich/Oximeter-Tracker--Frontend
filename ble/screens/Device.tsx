@@ -1,21 +1,39 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useState } from "react";
-import { Text, ScrollView, Button, View, StyleSheet } from "react-native";
+import {
+  Text,
+  ScrollView,
+  Button,
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
+import * as Animatable from "react-native-animatable";
+
 import { Service } from "react-native-ble-plx";
 import { ServiceCard } from "../components/ServiceCard";
 import { RootStackParamList } from "../navigation/index";
+
+import Feather from "react-native-vector-icons/Feather";
+import MatIcon from "react-native-vector-icons/MaterialCommunityIcons";
+
+import { CircularProgress } from "react-native-circular-progress";
+
+import { Block, Badge, Card, Progress } from "../../screens/components";
+import { theme, mocks } from "../../screens/constants";
 
 const DeviceScreen = ({
   route,
   navigation,
 }: StackScreenProps<RootStackParamList, "Device">) => {
   // get the device object which was given through navigation params
-  const { device } = route.params;
+  const { device, token, currentUser } = route.params;
 
   const [isConnected, setIsConnected] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
   const [dataService, setDataServices] = useState({});
-
+  const [DesplayImg, setDesplayImg] = useState(true);
   /*   const [char, setChar] = useState({}); */
 
   // handle the device disconnection
@@ -29,6 +47,14 @@ const DeviceScreen = ({
   }, [device, navigation]);
 
   useEffect(() => {
+    console.log("Devise screen for passing token  to save data");
+    console.log(token);
+    console.log(currentUser);
+
+    const timer = setTimeout(() => {
+      setDesplayImg(false);
+    }, 3000);
+
     const getDeviceInformations = async () => {
       // connect to the device
       const connectedDevice = await device.connect();
@@ -44,32 +70,18 @@ const DeviceScreen = ({
 
       //display the  service i need and from it get char value
       await discoveredServices.forEach(service => {
-        if (service.uuid === "0000fe86-0000-1000-8000-00805f9b34fb") {
+        console.log(service.uuid);
+        if (service.uuid === "cdeacb80-5235-4c07-8846-93a37ee6b86d") {
           console.log("hi");
           setDataServices(service);
+        } else {
+          console.log("no service");
         }
       });
 
       //save the propriete value of the char that return data
     };
 
-    /*  if (services) {
-      services.forEach(async service => {
-      
-        if (service.uuid === "cdeacb80-5235-4c07-8846-93a37ee6b86d") {
-          console.log(service.uuid);
-
-          const chars = await service.characteristics();
-          chars.forEach(char => {
-            console.log(char.uuid);
-            if (char.uuid === "cdeacb81-5235-4c07-8846-93a37ee6b86d") {
-              console.log("char from device screen" + char.value);
-              setChar(char);
-            }
-          });
-        }
-      });
-    } */
     getDeviceInformations();
     device.onDisconnected(() => {
       navigation.navigate("Home");
@@ -78,40 +90,94 @@ const DeviceScreen = ({
     // give a callback to the useEffect to disconnect the device when we will leave the device screen
     return () => {
       disconnectDevice();
+      clearTimeout(timer);
     };
   }, [device, disconnectDevice, navigation]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>
-            {" "}
-            device {` ${isConnected ? "connected" : ""}`}{" "}
-          </Text>
-        </View>
-        <View style={styles.deviceContainer}>
-          {/*  <Text>{`Id : ${device.id}`}</Text> */}
+        {/* works */}
 
-          <Text>
-            <Text style={{ fontWeight: "bold" }}>Name :</Text>
-            <Text style={{ color: "#009387" }}>
-              {` ${device.name ? device.name : "unknown"}`}
-            </Text>
-          </Text>
-          <Text>
-            <Text style={{ fontWeight: "bold" }}> Is connected :</Text>
-            <Text style={{ color: "#009387" }}>{` ${isConnected}`}</Text>
-          </Text>
-          <Text>
-            <Text style={{ fontWeight: "bold" }}>RSSI :</Text>
-            <Text style={{ color: "#009387" }}>{` ${device.rssi}`}</Text>
-          </Text>
+        {DesplayImg ? (
+          /* we can  pass the user also  */
+          <Card
+            shadow
+            style={{ paddingVertical: theme.sizes.base * 1, marginTop: 10 }}
+          >
+            <Block center>
+              <CircularProgress
+                size={300} // can use  with * .5 => 50%
+                fill={0} // percentage
+                lineCap="round" // line ending style
+                rotation={220}
+                arcSweepAngle={280}
+                width={theme.sizes.base}
+                tintColor={theme.colors.primary} // gradient is not supported :(
+                backgroundColor={theme.colors.gray3}
+                backgroundWidth={theme.sizes.base / 2}
+              >
+                {() => (
+                  <Image
+                    source={require("./../../img/oxymeter.png")}
+                    //width and height do not affect
+                    width={1}
+                    height={1}
+                    borderRadius={50}
+                    style={{ width: 200, height: 200 }}
+                  />
+                )}
+              </CircularProgress>
+            </Block>
 
-          {/* <Text>{`Manufacturer : ${device.manufacturerData}`}</Text>
-          <Text>{`ServiceData : ${device.serviceData}`}</Text>
-          <Text>{`UUIDS : ${device.serviceUUIDs}`}</Text> */}
-        </View>
+            <Block color="gray3" style={styles.hLine} />
+
+            <Block row>
+              <Block center>
+                <Text
+                  size={20}
+                  spacing={0.6}
+                  primary
+                  style={{ marginBottom: 6, color: "#009387" }}
+                >
+                  <MatIcon name="human-male" size={40} />
+                </Text>
+                <Text body spacing={0.7}>
+                  MINIMUM
+                </Text>
+                <Text body spacing={0.7}>
+                  60 bpm
+                </Text>
+              </Block>
+
+              <Block flex={false} color="gray3" style={styles.vLine} />
+
+              <Block center>
+                <Text
+                  size={20}
+                  spacing={0.6}
+                  style={{ marginBottom: 6, color: "#009387" }}
+                >
+                  <MatIcon name="run-fast" size={40} />
+                </Text>
+                <Text body spacing={0.7}>
+                  MAXIMUM
+                </Text>
+                <Text body spacing={0.7}>
+                  144 bpm
+                </Text>
+              </Block>
+            </Block>
+          </Card>
+        ) : (
+          <Animatable.View animation="bounceIn">
+            <ServiceCard
+              key={dataService.uuid}
+              service={dataService}
+              token={token}
+            />
+          </Animatable.View>
+        )}
         <View style={styles.btnContainer}>
           <Button
             title="disconnect"
@@ -119,16 +185,6 @@ const DeviceScreen = ({
             onPress={disconnectDevice}
           />
         </View>
-        {/* Display a list of all services */}
-        {/*  {services &&
-          services.map((service, id) => 
-            <ServiceCard key={id} service={service} />
-          )} */}
-        {/* navigatinng to patientdata and desplaying data } */}
-        {/* works */}
-        {dataService ? (
-          <ServiceCard key={dataService.uuid} service={dataService} />
-        ) : null}
       </View>
     </ScrollView>
   );
@@ -142,7 +198,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   header: {
-    /* backgroundColor: 'teal', */
     marginBottom: 12,
     borderRadius: 16,
     shadowColor: "rgba(60,64,67,0.3)",
@@ -168,6 +223,15 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 4,
     padding: 12,
+  },
+  hLine: {
+    marginVertical: theme.sizes.base * 1.5,
+    height: 1,
+  },
+  // vertical line
+  vLine: {
+    marginVertical: theme.sizes.base / 2,
+    width: 1,
   },
 });
 

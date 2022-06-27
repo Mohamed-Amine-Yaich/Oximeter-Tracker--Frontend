@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { createStackNavigator } from "@react-navigation/stack";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import Font from "react-native-vector-icons/FontAwesome5";
 //import Icon from "react-native-vector-icons/Ionicons";
 
 //in the patient tab nav i use 3 screen
@@ -16,6 +16,7 @@ import BluetoothScanner from "../../ble/BluetoothScanner";
 import { HomeScreen } from "../../ble/screens/Home";
 import { DeviceScreen } from "../../ble/screens/Device";
 import { RootNavigator } from "../../ble/navigation";
+import DataHistorique from "./DataHistorique";
 const Tab = createMaterialBottomTabNavigator();
 
 function PatientTabNav({ navigation, route }) {
@@ -86,6 +87,7 @@ function PatientTabNav({ navigation, route }) {
           ),
         }}
       /> */}
+
       <Tab.Screen
         name="PatientData"
         component={PatientDataScreen}
@@ -99,6 +101,21 @@ function PatientTabNav({ navigation, route }) {
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (
             <Icon name="account-details" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Historique"
+        component={DataHistorique}
+        initialParams={{
+          token: route.params.token,
+          currentUser: route.params.currentUser,
+        }}
+        options={{
+          tabBarLabel: "Historique",
+          tabBarColor: "#009387",
+          tabBarIcon: ({ color }) => (
+            <Font name="book-medical" color={color} size={26} />
           ),
         }}
       />

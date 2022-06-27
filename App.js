@@ -50,7 +50,6 @@ import AboutDoctor from "./screens/profileStack/AboutDoctor";
 import PatientDataScreen from "./screens/patientScreens/PatientDataScreen";
 /* ble screens */
 import { RootNavigator } from "./ble/navigation";
-import { DeviceScreen } from "./ble/screens/Device";
 export default function App() {
   const [isLoding, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
@@ -237,7 +236,14 @@ export default function App() {
                       )}
                     >
                       {/* user with patient role must have his own tabnav (the doctor tab nave depend of the list of patient for desplaying the selected patient) */}
-                      <Drawer.Screen name="device" component={RootNavigator} />
+                      <Drawer.Screen
+                        name="device"
+                        component={RootNavigator}
+                        initialParams={{
+                          token: userToken,
+                          currentUser: userData,
+                        }}
+                      />
                       <Drawer.Screen
                         name="Details"
                         component={PatientTabNav}
@@ -259,6 +265,7 @@ export default function App() {
                         component={ProfileStackScreens}
                         initialParams={{ token: userToken }}
                       />
+
                       {/*   <Drawer.Screen
                         name="Device"
                         component={DeviceScreen}

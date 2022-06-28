@@ -47,6 +47,7 @@ function PatientTabNav({ navigation, route }) {
           currentUser: route.params.currentUser,
         }}
         options={{
+          
           tabBarLabel: "Patient data history",
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (

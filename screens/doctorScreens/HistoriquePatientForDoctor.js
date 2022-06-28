@@ -56,7 +56,7 @@ const HistoriquePatientForDoctor = ({ navigation, route }) => {
   }, [data]);
   return (
     <View>
-      <DrawerButton />
+    {/*   <DrawerButton /> */}
       {/*  <Button
         title="refresh"
         onPress={() => {

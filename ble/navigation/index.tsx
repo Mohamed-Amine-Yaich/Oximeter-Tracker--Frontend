@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "../screens/Home";
 import { DeviceScreen } from "../screens/Device";
 import { Device } from "react-native-ble-plx";
+import PatientTabNav from "../../screens/patientScreens/PatientTabNav";
 import Icon from "react-native-vector-icons/Ionicons";
 
 export type RootStackParamList = {
@@ -37,7 +38,7 @@ export const RootNavigator = ({ navigation, route }) => (
       component={HomeScreen}
     />
     <Stack.Screen
-      name="Device"
+      name="Details"
       initialParams={{
         token: route.params.token,
         currentUser: route.params.currentUser,
@@ -58,7 +59,7 @@ export const RootNavigator = ({ navigation, route }) => (
           ></Icon.Button>
         ),
       }}
-      component={DeviceScreen}
+      component={PatientTabNav}
     />
   </Stack.Navigator>
   /*   </NavigationContainer> */

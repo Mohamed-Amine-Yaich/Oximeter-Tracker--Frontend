@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { Characteristic, Descriptor, Service } from "react-native-ble-plx";
 import { CharacteristicCard } from "./CharacteristicCard";
 import { DescriptorCard } from "./DescriptorCard";
+import * as Animatable from "react-native-animatable";
 
+import MatIcon from "react-native-vector-icons/MaterialCommunityIcons";
+
+import { CircularProgress } from "react-native-circular-progress";
+
+import {
+  Block,
+  Badge,
+  Card,
+  Progress,
+  DrawerButton,
+} from "../../screens/components";
+import { theme, mocks } from "../../screens/constants";
 type ServiceCardProps = {
   service: Service;
   token: undefined;
@@ -20,6 +33,7 @@ const ServiceCard = ({ service, token }: ServiceCardProps) => {
     useState(false);
 
   const [dataChar, setDataCharacteristics] = useState({});
+  const [charExist, setCharExist] = useState(false);
   useEffect(() => {
     console.log("service caed passing token");
     console.log(token);
@@ -31,6 +45,8 @@ const ServiceCard = ({ service, token }: ServiceCardProps) => {
         //target a specific char
         if (characteristic.uuid === "cdeacb81-5235-4c07-8846-93a37ee6b86d") {
           setDataCharacteristics(characteristic);
+          setCharExist(true);
+          console.log(dataChar);
         }
 
         const newDescriptors = await characteristic.descriptors();
@@ -50,12 +66,85 @@ const ServiceCard = ({ service, token }: ServiceCardProps) => {
         }}
       ></TouchableOpacity>
       {/* works */}
-      {characteristics &&
-        characteristics.map(char =>
-          char.uuid === "cdeacb81-5235-4c07-8846-93a37ee6b86d" ? (
-            <CharacteristicCard key={char.uuid} char={char} token={token} />
-          ) : null
-        )}
+
+      {!charExist ? (
+        <Card
+          shadow
+          style={{ paddingVertical: theme.sizes.base * 1, marginTop: 10 }}
+        >
+          <Block center>
+            <CircularProgress
+              size={300} // can use  with * .5 => 50%
+              fill={0} // percentage
+              lineCap="round" // line ending style
+              rotation={220}
+              arcSweepAngle={280}
+              width={theme.sizes.base}
+              tintColor={theme.colors.primary} // gradient is not supported :(
+              backgroundColor={theme.colors.gray3}
+              backgroundWidth={theme.sizes.base / 2}
+            >
+              {() => (
+                <Image
+                  source={require("./../../img/oxymeter.png")}
+                  //width and height do not affect
+                  width={1}
+                  height={1}
+                  borderRadius={50}
+                  style={{ width: 200, height: 200 }}
+                />
+              )}
+            </CircularProgress>
+          </Block>
+
+          <Block color="gray3" style={styles.hLine} />
+
+          <Block row>
+            <Block center>
+              <Text
+                size={20}
+                spacing={0.6}
+                primary
+                style={{ marginBottom: 6, color: "#009387" }}
+              >
+                <MatIcon name="human-male" size={40} />
+              </Text>
+              <Text body spacing={0.7}>
+                MINIMUM
+              </Text>
+              <Text body spacing={0.7}>
+                60 bpm
+              </Text>
+            </Block>
+
+            <Block flex={false} color="gray3" style={styles.vLine} />
+
+            <Block center>
+              <Text
+                size={20}
+                spacing={0.6}
+                style={{ marginBottom: 6, color: "#009387" }}
+              >
+                <MatIcon name="run-fast" size={40} />
+              </Text>
+              <Text body spacing={0.7}>
+                MAXIMUM
+              </Text>
+              <Text body spacing={0.7}>
+                144 bpm
+              </Text>
+            </Block>
+          </Block>
+        </Card>
+      ) : null}
+      <Animatable.View animation="bounceIn">
+        {characteristics &&
+          characteristics.map(char =>
+            char.uuid === "cdeacb81-5235-4c07-8846-93a37ee6b86d" ? (
+              <CharacteristicCard key={char.uuid} char={char} token={token} />
+            ) : null
+          )}
+      </Animatable.View>
 
       {/*   {descriptors &&
         descriptors.map(descriptor => (
@@ -77,6 +166,15 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 4,
     padding: 12,
+  },
+  hLine: {
+    marginVertical: theme.sizes.base * 1.5,
+    height: 1,
+  },
+  // vertical line
+  vLine: {
+    marginVertical: theme.sizes.base / 2,
+    width: 1,
   },
 });
 

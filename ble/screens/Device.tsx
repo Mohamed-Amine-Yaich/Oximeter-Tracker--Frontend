@@ -20,15 +20,23 @@ import MatIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { CircularProgress } from "react-native-circular-progress";
 
-import { Block, Badge, Card, Progress } from "../../screens/components";
+import {
+  Block,
+  Badge,
+  Card,
+  Progress,
+  DrawerButton,
+} from "../../screens/components";
 import { theme, mocks } from "../../screens/constants";
+import { Drawer } from "react-native-paper";
 
 const DeviceScreen = ({
   route,
   navigation,
 }: StackScreenProps<RootStackParamList, "Device">) => {
   // get the device object which was given through navigation params
-  const { device, token, currentUser } = route.params;
+  const device = route.params.device;
+  const { token, currentUser } = route.params;
 
   const [isConnected, setIsConnected] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
@@ -51,142 +59,150 @@ const DeviceScreen = ({
     console.log(token);
     console.log(currentUser);
 
-    const timer = setTimeout(() => {
-      setDesplayImg(false);
-    }, 3000);
+    if (device) {
+      const timer = setTimeout(() => {
+        setDesplayImg(false);
+      }, 3000);
 
-    const getDeviceInformations = async () => {
-      // connect to the device
-      const connectedDevice = await device.connect();
-      setIsConnected(true);
+      const getDeviceInformations = async () => {
+        // connect to the device
+        const connectedDevice = await device.connect();
+        setIsConnected(true);
 
-      // discover all device services and characteristics
-      const allServicesAndCharacteristics =
-        await connectedDevice.discoverAllServicesAndCharacteristics();
-      // get the services only
-      const discoveredServices = await allServicesAndCharacteristics.services();
+        // discover all device services and characteristics
+        const allServicesAndCharacteristics =
+          await connectedDevice.discoverAllServicesAndCharacteristics();
+        // get the services only
+        const discoveredServices =
+          await allServicesAndCharacteristics.services();
 
-      setServices(discoveredServices);
+        setServices(discoveredServices);
 
-      //display the  service i need and from it get char value
-      await discoveredServices.forEach(service => {
-        console.log(service.uuid);
-        if (service.uuid === "cdeacb80-5235-4c07-8846-93a37ee6b86d") {
-          console.log("hi");
-          setDataServices(service);
-        } else {
-          console.log("no service");
-        }
+        //display the  service i need and from it get char value
+        await discoveredServices.forEach(service => {
+          console.log(service.uuid);
+          if (service.uuid === "cdeacb80-5235-4c07-8846-93a37ee6b86d") {
+            console.log("hi");
+            setDataServices(service);
+          } else {
+            console.log("no service");
+          }
+        });
+
+        //save the propriete value of the char that return data
+      };
+
+      getDeviceInformations();
+      device.onDisconnected(() => {
+        navigation.navigate("Home");
       });
 
-      //save the propriete value of the char that return data
-    };
-
-    getDeviceInformations();
-    device.onDisconnected(() => {
-      navigation.navigate("Home");
-    });
-
-    // give a callback to the useEffect to disconnect the device when we will leave the device screen
-    return () => {
-      disconnectDevice();
-      clearTimeout(timer);
-    };
+      // give a callback to the useEffect to disconnect the device when we will leave the device screen
+      return () => {
+        disconnectDevice();
+        clearTimeout(timer);
+      };
+    }
   }, [device, disconnectDevice, navigation]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View>
-        {/* works */}
+    <>
+      {!device ? <DrawerButton /> : null}
+      <ScrollView contentContainerStyle={styles.container}>
+        <View>
+          {/* works */}
 
-        {DesplayImg ? (
-          /* we can  pass the user also  */
-          <Card
-            shadow
-            style={{ paddingVertical: theme.sizes.base * 1, marginTop: 10 }}
-          >
-            <Block center>
-              <CircularProgress
-                size={300} // can use  with * .5 => 50%
-                fill={0} // percentage
-                lineCap="round" // line ending style
-                rotation={220}
-                arcSweepAngle={280}
-                width={theme.sizes.base}
-                tintColor={theme.colors.primary} // gradient is not supported :(
-                backgroundColor={theme.colors.gray3}
-                backgroundWidth={theme.sizes.base / 2}
-              >
-                {() => (
-                  <Image
-                    source={require("./../../img/oxymeter.png")}
-                    //width and height do not affect
-                    width={1}
-                    height={1}
-                    borderRadius={50}
-                    style={{ width: 200, height: 200 }}
-                  />
-                )}
-              </CircularProgress>
-            </Block>
-
-            <Block color="gray3" style={styles.hLine} />
-
-            <Block row>
+          {DesplayImg ? (
+            /* we can  pass the user also  */
+            <Card
+              shadow
+              style={{ paddingVertical: theme.sizes.base * 1, marginTop: 10 }}
+            >
               <Block center>
-                <Text
-                  size={20}
-                  spacing={0.6}
-                  primary
-                  style={{ marginBottom: 6, color: "#009387" }}
+                <CircularProgress
+                  size={300} // can use  with * .5 => 50%
+                  fill={0} // percentage
+                  lineCap="round" // line ending style
+                  rotation={220}
+                  arcSweepAngle={280}
+                  width={theme.sizes.base}
+                  tintColor={theme.colors.primary} // gradient is not supported :(
+                  backgroundColor={theme.colors.gray3}
+                  backgroundWidth={theme.sizes.base / 2}
                 >
-                  <MatIcon name="human-male" size={40} />
-                </Text>
-                <Text body spacing={0.7}>
-                  MINIMUM
-                </Text>
-                <Text body spacing={0.7}>
-                  60 bpm
-                </Text>
+                  {() => (
+                    <Image
+                      source={require("./../../img/oxymeter.png")}
+                      //width and height do not affect
+                      width={1}
+                      height={1}
+                      borderRadius={50}
+                      style={{ width: 200, height: 200 }}
+                    />
+                  )}
+                </CircularProgress>
               </Block>
 
-              <Block flex={false} color="gray3" style={styles.vLine} />
+              <Block color="gray3" style={styles.hLine} />
 
-              <Block center>
-                <Text
-                  size={20}
-                  spacing={0.6}
-                  style={{ marginBottom: 6, color: "#009387" }}
-                >
-                  <MatIcon name="run-fast" size={40} />
-                </Text>
-                <Text body spacing={0.7}>
-                  MAXIMUM
-                </Text>
-                <Text body spacing={0.7}>
-                  144 bpm
-                </Text>
+              <Block row>
+                <Block center>
+                  <Text
+                    size={20}
+                    spacing={0.6}
+                    primary
+                    style={{ marginBottom: 6, color: "#009387" }}
+                  >
+                    <MatIcon name="human-male" size={40} />
+                  </Text>
+                  <Text body spacing={0.7}>
+                    MINIMUM
+                  </Text>
+                  <Text body spacing={0.7}>
+                    60 bpm
+                  </Text>
+                </Block>
+
+                <Block flex={false} color="gray3" style={styles.vLine} />
+
+                <Block center>
+                  <Text
+                    size={20}
+                    spacing={0.6}
+                    style={{ marginBottom: 6, color: "#009387" }}
+                  >
+                    <MatIcon name="run-fast" size={40} />
+                  </Text>
+                  <Text body spacing={0.7}>
+                    MAXIMUM
+                  </Text>
+                  <Text body spacing={0.7}>
+                    144 bpm
+                  </Text>
+                </Block>
               </Block>
-            </Block>
-          </Card>
-        ) : (
-          <Animatable.View animation="bounceIn">
-            <ServiceCard
-              key={dataService.uuid}
-              service={dataService}
-              token={token}
-            />
-          </Animatable.View>
-        )}
-        <View style={styles.btnContainer}>
-          <Button
-            title="disconnect"
-            color={"#009387"}
-            onPress={disconnectDevice}
-          />
+            </Card>
+          ) : (
+            <Animatable.View animation="bounceIn">
+              <ServiceCard
+                key={dataService.uuid}
+                service={dataService}
+                token={token}
+              />
+            </Animatable.View>
+          )}
+          {device ? (
+            <View style={styles.btnContainer}>
+              <Button
+                title="disconnect"
+                color={"#009387"}
+                onPress={disconnectDevice}
+              />
+            </View>
+          ) : null}
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 

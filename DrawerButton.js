@@ -8,6 +8,7 @@ const DrawerButton = () => {
   const navigation = useNavigation();
   return (
     <Icon.Button
+      style={{ alignSelf: "flex-end" }}
       borderRadius={0}
       name="ios-menu"
       size={25}

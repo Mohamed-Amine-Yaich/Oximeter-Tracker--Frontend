@@ -64,7 +64,7 @@ const DataHistorique = ({ navigation, route }) => {
   }, [data]);
   return (
     <View>
-      <DrawerButton />
+     {/*  <DrawerButton /> */}
       {/*  <Button
         title="refresh"
         onPress={() => {

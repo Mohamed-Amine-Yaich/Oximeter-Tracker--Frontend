@@ -3,9 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Patients from "./Patients";
 import User from "./User";
 import PatientTabNav from "./PatientTabNav";
-import CommunList from '../CommunList';
+import CommunList from "../CommunList";
 const PatientStack = createStackNavigator();
-
 
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -13,16 +12,21 @@ const PatientStackScreen = ({ navigation, route }) => (
   <PatientStack.Navigator initialRouteName="Patients">
     <PatientStack.Screen
       name="Patients"
-      component={CommunList}/* component={Patients} */ /* replace the patients screen commun list screen */
-      initialParams={{ token: route.params.token, currentUser :route.params.currentUser  }}
-
+      component={
+        CommunList
+      } /* component={Patients} */ /* replace the patients screen commun list screen */
+      initialParams={{
+        token: route.params.token,
+        currentUser: route.params.currentUser,
+      }}
       options={{
+        title: "Patient list ",
         headerStyle: {
           backgroundColor: "#009387",
         },
-        headerLeft: () => (
+        headerRight: () => (
           <Icon.Button
-          borderRadius={0}
+            borderRadius={0}
             name="ios-menu"
             size={25}
             color="#111"
@@ -38,11 +42,25 @@ const PatientStackScreen = ({ navigation, route }) => (
     <PatientStack.Screen
       name="PatientTabNav"
       component={PatientTabNav}
-      initialParams={{ token: route.params.token, currentUser :route.params.currentUser   }}
+      initialParams={{
+        token: route.params.token,
+        currentUser: route.params.currentUser,
+      }}
       options={{
+        title: " Historique and Messages ",
         headerStyle: {
           backgroundColor: "#009387",
         },
+        headerRight: () => (
+          <Icon.Button
+            borderRadius={0}
+            name="ios-menu"
+            size={25}
+            color="#111"
+            backgroundColor="#009387"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
       }}
     />
   </PatientStack.Navigator>

@@ -21,7 +21,7 @@ const ProfileStackScreens = ({ navigation, route }) => (
         headerStyle: {
           backgroundColor: "#009387",
         },
-        headerLeft: () => (
+        headerRight: () => (
           <Icon.Button
           borderRadius={0}
             name="ios-menu"
@@ -44,6 +44,16 @@ const ProfileStackScreens = ({ navigation, route }) => (
         headerStyle: {
           backgroundColor: "#009387",
         },
+        headerRight: () => (
+          <Icon.Button
+          borderRadius={0}
+            name="ios-menu"
+            size={25}
+            color="#111"
+            backgroundColor="#009387"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
       }}
     />
     <ProfileStack.Screen
@@ -54,6 +64,16 @@ const ProfileStackScreens = ({ navigation, route }) => (
         headerStyle: {
           backgroundColor: "#009387",
         },
+        headerRight: () => (
+          <Icon.Button
+          borderRadius={0}
+            name="ios-menu"
+            size={25}
+            color="#111"
+            backgroundColor="#009387"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
       }}
     />
     <ProfileStack.Screen
@@ -64,6 +84,16 @@ const ProfileStackScreens = ({ navigation, route }) => (
         headerStyle: {
           backgroundColor: "#009387",
         },
+        headerRight: () => (
+          <Icon.Button
+          borderRadius={0}
+            name="ios-menu"
+            size={25}
+            color="#111"
+            backgroundColor="#009387"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
       }}
     />
     <ProfileStack.Screen
@@ -74,6 +104,16 @@ const ProfileStackScreens = ({ navigation, route }) => (
         headerStyle: {
           backgroundColor: "#009387",
         },
+        headerRight: () => (
+          <Icon.Button
+          borderRadius={0}
+            name="ios-menu"
+            size={25}
+            color="#111"
+            backgroundColor="#009387"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
       }}
     />
   </ProfileStack.Navigator>

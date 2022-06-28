@@ -17,6 +17,7 @@ import { HomeScreen } from "../../ble/screens/Home";
 import { DeviceScreen } from "../../ble/screens/Device";
 import { RootNavigator } from "../../ble/navigation";
 import DataHistorique from "./DataHistorique";
+import { Device } from "react-native-ble-plx";
 const Tab = createMaterialBottomTabNavigator();
 
 function PatientTabNav({ navigation, route }) {
@@ -70,15 +71,16 @@ function PatientTabNav({ navigation, route }) {
             <Icon name="account-details" color={color} size={26} />
           ),
         }}
-      /> */
-      /* <Tab.Screen
-        name="ConnectedDevice"
-        component={DeviceScreen} */
-      /*  initialParams={{
+      /> */}
+      <Tab.Screen
+        name="Device"
+        component={DeviceScreen}
+        initialParams={{
           token: route.params.token,
           currentUser: route.params.currentUser,
-        }} */
-      /*  options={{
+          device: route.params.device,
+        }}
+        options={{
           title: "device connected",
           tabBarLabel: "Patient Details",
           tabBarColor: "#009387",
@@ -86,9 +88,9 @@ function PatientTabNav({ navigation, route }) {
             <Icon name="account-details" color={color} size={26} />
           ),
         }}
-      /> */}
+      />
 
-      <Tab.Screen
+      {/*  <Tab.Screen
         name="PatientData"
         component={PatientDataScreen}
         initialParams={{
@@ -103,7 +105,7 @@ function PatientTabNav({ navigation, route }) {
             <Icon name="account-details" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Historique"
         component={DataHistorique}

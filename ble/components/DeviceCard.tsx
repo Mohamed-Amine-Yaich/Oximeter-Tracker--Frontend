@@ -18,7 +18,9 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
 
   useEffect(() => {
     // is the device connected?
+
     device.isConnected().then(setIsConnected);
+
     /* console.log("hi")
     console.log(device.serviceData) */
   }, [device]);
@@ -28,7 +30,7 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
       style={styles.container}
       // navigate to the Device Screen
       onPress={() => {
-        navigation.navigate("Device", { device });
+        navigation.navigate("Details", { device });
         /*   navigation.navigate("PatientDataScreen", { device }); */
       }}
     >

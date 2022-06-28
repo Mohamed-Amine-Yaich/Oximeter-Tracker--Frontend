@@ -130,6 +130,7 @@ import {
   StatusBar,
   Dimensions,
 } from "react-native";
+
 import { Characteristic } from "react-native-ble-plx";
 /* import { TouchableOpacity } from "react-native-gesture-handler"; */
 import { Base64 } from "../lib/base64";

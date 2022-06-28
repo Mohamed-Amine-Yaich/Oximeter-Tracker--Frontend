@@ -49,6 +49,7 @@ import CommunList from "./screens/CommunList";
 import AboutDoctor from "./screens/profileStack/AboutDoctor";
 import PatientDataScreen from "./screens/patientScreens/PatientDataScreen";
 /* ble screens */
+
 import { RootNavigator } from "./ble/navigation";
 export default function App() {
   const [isLoding, setIsLoading] = useState(true);

@@ -288,9 +288,7 @@ import {
 const MessageScreen = ({ navigation, route }) => {
   const [message, setMessage] = useState("");
 
-  const [data, setData] = useState([
- 
-  ]);
+  const [data, setData] = useState([]);
 
   /* get all messages  */
   useEffect(async () => {
@@ -353,28 +351,28 @@ create method to post to database*/
 
   return (
     <View style={styles.container}>
-      {route.params.currentUser.role === "patient" ? (
+   {/*    {route.params.currentUser.role === "patient" ? (
         <Icon.Button
-        borderRadius={0}
+          borderRadius={0}
           name="ios-menu"
           size={25}
           color="#111"
           backgroundColor="#009387"
           onPress={() => navigation.openDrawer()}
         ></Icon.Button>
-      ) : null}
+      ) : null} */}
 
       <FlatList
         /*  inverted={-1} */
         style={styles.list}
         data={data}
         keyExtractor={item => {
-           return item.id;
+          return item.id;
         }}
         key={item => {
-        item.id;
+          item.id;
         }}
-        renderItem={({ item}) => {
+        renderItem={({ item }) => {
           /* in message is received message that current user (current user is sender) */
           let inMessage = route.params.currentUser.id === item.receiver;
           let itemStyle = inMessage ? styles.itemIn : styles.itemOut;

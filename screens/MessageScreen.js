@@ -351,7 +351,7 @@ create method to post to database*/
 
   return (
     <View style={styles.container}>
-   {/*    {route.params.currentUser.role === "patient" ? (
+      {/*    {route.params.currentUser.role === "patient" ? (
         <Icon.Button
           borderRadius={0}
           name="ios-menu"
@@ -369,6 +369,8 @@ create method to post to database*/
         keyExtractor={item => {
           return item.id;
         }}
+       /*  initialScrollIndex={0}
+        scrollToOffset={-1} */
         key={item => {
           item.id;
         }}

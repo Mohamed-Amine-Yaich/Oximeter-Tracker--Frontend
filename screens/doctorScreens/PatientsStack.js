@@ -20,7 +20,7 @@ const PatientStackScreen = ({ navigation, route }) => (
         currentUser: route.params.currentUser,
       }}
       options={{
-        title: "Patient list ",
+        title: "Patient List ",
         headerStyle: {
           backgroundColor: "#009387",
         },

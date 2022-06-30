@@ -55,6 +55,7 @@ import { CircularProgress } from "react-native-circular-progress";
 import { Block, Badge, Card, Text, Progress } from "../components";
 import { theme, mocks } from "../constants";
 import { FontAwesome5 } from "@expo/vector-icons";
+import DrawerButton from "../../DrawerButton";
 
 const Overview = ({ navigation, route }) => {
   const Users = () => {
@@ -125,8 +126,6 @@ const Overview = ({ navigation, route }) => {
     );
   };
 
- 
-
   const DoctorOfTheMonth = () => {
     return (
       <Card shadow style={{ paddingVertical: theme.sizes.base * 2 }}>
@@ -145,7 +144,10 @@ const Overview = ({ navigation, route }) => {
           />
 
           <Text>
-            <Text title spacing={1}> med amine</Text>
+            <Text title spacing={1}>
+              {" "}
+              med amine
+            </Text>
           </Text>
         </Block>
       </Card>
@@ -157,7 +159,7 @@ const Overview = ({ navigation, route }) => {
       <Card shadow style={{ paddingVertical: theme.sizes.base }}>
         <Block row>
           <Block center>
-           {/*  <Text size={20} spacing={0.6} primary style={{ marginBottom: 6 }}>
+            {/*  <Text size={20} spacing={0.6} primary style={{ marginBottom: 6 }}>
               <MatIcon name="human-male" size={40} />
             </Text> */}
             <Text title spacing={1} style={{ marginVertical: 8 }}>
@@ -174,89 +176,65 @@ const Overview = ({ navigation, route }) => {
   const NewUsers = () => {
     return (
       <Card shadow style={{ paddingVertical: theme.sizes.base }}>
-      
         <Text title spacing={1} style={{ marginVertical: 8 }}>
-         New patients
-
+          New patients
         </Text>
         <Block row center space="evenly">
-            <Text size={20} spacing={1} primary>
-              <Feather name="trending-down" size={30} />
+          <Text size={20} spacing={1} primary>
+            <Feather name="trending-down" size={30} />
+          </Text>
+          <View>
+            <Text
+              size={20}
+              spacing={0.6}
+              primary /* style={{ marginBottom: 6 }} */
+            >
+              75 bpm
             </Text>
-            <View>
-              <Text
-                size={20}
-                spacing={0.6}
-                primary /* style={{ marginBottom: 6 }} */
-              >
-                75 bpm
-              </Text>
-              <Text>5% less than last month</Text>
-            </View>
-           
-
+            <Text>5% less than last month</Text>
+          </View>
         </Block>
-
 
         <Block flex={false} color="gray3" style={styles.hLine} />
 
         <Block row>
-         
-         
-
           <Block center>
-           
-            <Text body  size={15}spacing={0.7}>
-            Daily
+            <Text body size={15} spacing={0.7}>
+              Daily
             </Text>
             <Text body spacing={0.7}></Text>
           </Block>
           <Block flex={false} color="gray3" style={styles.vLine} />
 
           <Block center>
-          
-            <Text body   size={15}spacing={0.7}>
+            <Text body size={15} spacing={0.7}>
               Monthly
             </Text>
-            <Text body  spacing={0.7}>
+            <Text body spacing={0.7}>
               3%
             </Text>
           </Block>
           <Block flex={false} color="gray3" style={styles.vLine} />
 
-          <Block center  >
-          
-            <Text body  size={15} spacing={0.7}>
-            Overall
+          <Block center>
+            <Text body size={15} spacing={0.7}>
+              Overall
             </Text>
             <Text body spacing={0.7}>
               5%
             </Text>
           </Block>
         </Block>
-    
-     </Card>
+      </Card>
     );
   };
 
-  const margin=()=>{
-return (<View style={{marginBottom :100}}>
-
-</View>)
-  }
+  const margin = () => {
+    return <View style={{ marginBottom: 100 }}></View>;
+  };
 
   const renderButton = () => {
-    return (
-      <IconBtn.Button
-        borderRadius={0}
-        name="ios-menu"
-        size={25}
-        color="#111"
-        style={{ width: 365 }}
-        backgroundColor="#009387"
-        onPress={() => navigation.openDrawer()}
-      ></IconBtn.Button>
-    );
+    return <DrawerButton />;
   };
 
   return (
@@ -270,7 +248,7 @@ return (<View style={{marginBottom :100}}>
         {DoctorOfTheMonth()}
         {age()}
         {NewUsers()}
-         {margin()}
+        {margin()}
       </ScrollView>
     </View>
   );

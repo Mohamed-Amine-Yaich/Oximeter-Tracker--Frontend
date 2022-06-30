@@ -19,17 +19,7 @@ const DataHistorique = ({ navigation, route }) => {
   let token = route.params.token;
   let currentUser = route.params.currentUser;
 
-  const [data, setData] = React.useState([
-    /*   { id: 1, day: 1, month: "Sep" },
-    { id: 2, day: 2, month: "Jan" },
-    { id: 3, day: 3, month: "Aug" },
-    { id: 4, day: 4, month: "Dec" },
-    { id: 5, day: 5, month: "Jul" },
-    { id: 6, day: 6, month: "Oct" },
-    { id: 7, day: 7, month: "Sep" },
-    { id: 8, day: 8, month: "Jan" },
-    { id: 9, day: 9, month: "May" }, */
-  ]);
+  const [data, setData] = React.useState([]);
 
   const getYear = date => {
     /* console.log(date.split("-")[0]); */
@@ -64,13 +54,8 @@ const DataHistorique = ({ navigation, route }) => {
   }, [data]);
   return (
     <View>
-     {/*  <DrawerButton /> */}
-      {/*  <Button
-        title="refresh"
-        onPress={() => {
-          setData(data.push("hi"));
-        }}
-      /> */}
+      {/*  <DrawerButton /> */}
+
       <View style={styles.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -86,10 +71,7 @@ const DataHistorique = ({ navigation, route }) => {
             return (
               //if data are not from the same day we desplay a hirzontal line
 
-              <TouchableOpacity
-                key={item.id}
-                onPress={() => {} /*  eventClickListener("row") */}
-              >
+              <TouchableOpacity key={item.id} onPress={() => {}}>
                 <Text style={styles.eventMonth}>{getYear(item.createdAt)}</Text>
                 <View style={styles.eventBox}>
                   <View style={styles.eventDate}>

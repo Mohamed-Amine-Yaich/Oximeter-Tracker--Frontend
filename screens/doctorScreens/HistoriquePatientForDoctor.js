@@ -43,26 +43,17 @@ const HistoriquePatientForDoctor = ({ navigation, route }) => {
   };
 
   React.useEffect(async () => {
-    /* console.log("receiver :" + route.params.item.id); */
-    /* id patient is the item passed  to this scren */
+    // console.log("receiver :" + route.params.item.id);
+    // id patient is the item passed  to this screen for getting the req
     let data = await getDataForDoctor(token, item.id);
     data
       ? console.log(" you have data from backend")
       : console.log("theres is no data from backend");
-    /*  console.log("getting data from db:" + data);
-    console.log(data); */
-    /*    console.log(data); */
+
     setData(data);
   }, [data]);
   return (
     <View>
-    {/*   <DrawerButton /> */}
-      {/*  <Button
-        title="refresh"
-        onPress={() => {
-          setData(data.push("hi"));
-        }}
-      /> */}
       <View style={styles.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -78,10 +69,7 @@ const HistoriquePatientForDoctor = ({ navigation, route }) => {
             return (
               //if data are not from the same day we desplay a hirzontal line
 
-              <TouchableOpacity
-                key={item.id}
-                onPress={() => {} /*  eventClickListener("row") */}
-              >
+              <TouchableOpacity key={item.id} onPress={() => {}}>
                 <Text style={styles.eventMonth}>{getYear(item.createdAt)}</Text>
                 <View style={styles.eventBox}>
                   <View style={styles.eventDate}>
@@ -105,7 +93,6 @@ const HistoriquePatientForDoctor = ({ navigation, route }) => {
                       </Text>
                     </View>
 
-                    {/*  <Text style={styles.description}>John Doe</Text> */}
                     <View
                       style={{
                         flexDirection: "row",

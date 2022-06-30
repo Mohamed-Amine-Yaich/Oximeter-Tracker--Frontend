@@ -50,19 +50,21 @@ const CommunList = ({ navigation, route }) => {
   }, []);
 
   const renderTags = item => {
-    return (<>
-      <TouchableOpacity style={styles.btnColor}>
-        <Text>{item.email}</Text>
-      </TouchableOpacity>
-      {item.role ==="patient"?<TouchableOpacity
-        style={styles.btnColor}
-        onPress={() => {
-          /* about device another screen descripbe the device !!! */
-        }}
-      >
-        <Text>device: {item.device}</Text>
-        
-      </TouchableOpacity>:null}
+    return (
+      <>
+        <TouchableOpacity style={styles.btnColor}>
+          <Text>{item.email}</Text>
+        </TouchableOpacity>
+        {item.role === "patient" ? (
+          <TouchableOpacity
+            style={styles.btnColor}
+            onPress={() => {
+              /* about device another screen descripbe the device !!! */
+            }}
+          >
+            <Text>device: {item.device}</Text>
+          </TouchableOpacity>
+        ) : null}
       </>
     );
   };
@@ -98,7 +100,8 @@ const CommunList = ({ navigation, route }) => {
               onPress={() => {
                 /* when we press on a doctor we navigate to doctor about screen  that describe the specific doctor */
 
-                {/* role of the usercard not the user of the app */
+                {
+                  /* role of the usercard not the user of the app */
                   item.role === "patient"
                     ? navigation.navigate("PatientTabNav", { item })
                     : item.role === "doctor"
@@ -124,12 +127,10 @@ const CommunList = ({ navigation, route }) => {
                   />
                 ) : null}
                 <Text style={styles.name}>
-                  {item.role} <Text style={{fontWeight:'normal'}}>{item.name}{" "}</Text> 
+                  <Text style={{ fontWeight: "normal" }}>{item.name} </Text>
                 </Text>
               </View>
               <View style={[styles.cardContent, styles.tagsContent]}>
-                {/* diplay tages in the card (default tmeplate ) with that function  
-                we can add some info about doctor (rating,email )  */}
                 {renderTags(item)}
               </View>
             </TouchableOpacity>

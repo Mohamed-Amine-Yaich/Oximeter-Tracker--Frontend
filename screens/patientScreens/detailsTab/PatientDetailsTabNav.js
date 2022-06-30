@@ -4,34 +4,29 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Font from "react-native-vector-icons/FontAwesome5";
-//import Icon from "react-native-vector-icons/Ionicons";
 
-//in the patient tab nav i use 3 screen
-//when we select a user we enter the tab nav that containe userDetails(data),message,home
-/* import HomeScreen from "../Home"; */
-//this present user details
-import MessageScreen from "../MessageScreen";
-import { DeviceScreen } from "../../ble/screens/Device";
-import DataHistorique from "./DataHistorique";
+import MessageScreen from "../../MessageScreen";
+
+import DetailsChartScreen from "./DetailsChartScreen";
+import DataHistorique from "../DataHistorique";
 const Tab = createMaterialBottomTabNavigator();
 
-function PatientTabNav({ navigation, route }) {
+function PatientDetailsTabNav({ navigation, route }) {
   return (
     <Tab.Navigator activeColor="#fff" barStyle={{ backgroundColor: "#009387" }}>
       <Tab.Screen
-        name="Device"
-        component={DeviceScreen}
+        name="chart"
+        component={DetailsChartScreen}
         initialParams={{
           token: route.params.token,
           currentUser: route.params.currentUser,
           device: route.params.device,
         }}
         options={{
-          title: "device connected",
-          tabBarLabel: "Patient Details",
+          tabBarLabel: "Chart",
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (
-            <Icon name="account-details" color={color} size={26} />
+            <Icon name="chart-line" color={color} size={26} />
           ),
         }}
       />
@@ -70,6 +65,6 @@ function PatientTabNav({ navigation, route }) {
   );
 }
 
-export default PatientTabNav;
+export default PatientDetailsTabNav;
 
 const PatientDataStack = createStackNavigator();

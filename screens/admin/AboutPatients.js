@@ -1,18 +1,3 @@
-/* import React, { useState, useEffect } from "react";
-import { View, Text,StatusBar } from "react-native";
-
-const AboutDoctor = ({ route, navigation }) => {
-  const item = route.params.item;
-  return (
-    <View>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <Text> hello About Doctor Screen :</Text>
-      <Text> {item.name}</Text>
-    </View>
-  );
-};
-export default AboutDoctor; */
-
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -22,40 +7,28 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { AuthContext } from "../../components/context";
+//import { AuthContext } from "../../components/context";
 
-import { updateDoctor } from "./../../api/service";
+//import { updateDoctor } from "./../../api/service";
 
-const AboutDoctor = ({ navigation, route }) => {
-  const { updateUserData } = React.useContext(AuthContext);
+const AboutPatients = ({ navigation, route }) => {
+  //const { updateUserData } = React.useContext(AuthContext);
 
   /*  React.useEffect(() => {
     console.log(route.params.currentUser.role);
   }); */
 
-  const handelUpdateDoctor = async () => {
-    /* function params (data,token)  */
-
+  /* const handelDeletePatientaccounet = async () => {
     const res = await updateDoctor(
       { doctor: route.params.item.id },
       route.params.token
     );
     console.log("handelUpdatedoctor");
-
-    /* create a function in auth context that update the userData */
-    /*  updateUserData (res) */
   };
-
+ */
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/*  */}
-        {/* <View style={styles.header}>
-              <Text style={styles.headerTitle}>
-                Lorem ipsum dolor
-              </Text>
-          </View> */}
-
         <View style={styles.postContent}>
           <Text style={styles.postTitle}>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
@@ -75,7 +48,7 @@ const AboutDoctor = ({ navigation, route }) => {
             <Image
               style={styles.avatar}
               source={{
-                uri: "https://bootdey.com/img/Content/avatar/avatar1.png",
+                uri: "https://bootdey.com/img/Content/avatar/avatar2.png",
               }}
             />
             <View>
@@ -84,29 +57,19 @@ const AboutDoctor = ({ navigation, route }) => {
             </View>
           </View>
 
-          {route.params.currentUser.role === "patient" ? (
-            <TouchableOpacity
-              style={styles.shareButton}
-              onPress={handelUpdateDoctor}
-            >
-              <Text style={styles.shareButtonText}>switch to this doctor</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.shareButton}
-              onPress={handelUpdateDoctor}
-            >
-              <Text style={styles.shareButtonText}>delete doctor account</Text>
-            </TouchableOpacity>
-            
-          )}
+          <TouchableOpacity
+            style={styles.shareButton}
+            onPress={() => {}} /* handelDeletePatientaccounet */
+          >
+            <Text style={styles.shareButtonText}>delete account</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
   );
 };
 
-export default AboutDoctor;
+export default AboutPatients;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

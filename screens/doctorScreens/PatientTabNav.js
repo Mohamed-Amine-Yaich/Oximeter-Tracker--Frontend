@@ -22,22 +22,7 @@ function PatientTabNav({ navigation, route }) {
       activeColor="#fff"
       barStyle={{ backgroundColor: "#009387" }}
     >
-      {/* 
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen} /* send  props the home screen  
-        /*   not works because the route containe the item(user data) initialParams={{ token: route.params.token }} 
-        initialParams={{ token: route.params.token }}
-        options={{
-          tabBarLabel: "Home",
-          tabBarColor: "#009387",
-          tabBarIcon: ({ color }) => (
-            <Icon name="home" color={color} size={26} />
-          ),
-        }}
-      /> */}
-
-      {/* doctor nav to patient historique data */}
+      
       <Tab.Screen
         name="User"
         component={HistoriquePatientForDoctor}
@@ -64,9 +49,9 @@ function PatientTabNav({ navigation, route }) {
           currentUser: route.params.currentUser,
         }}
         options={{
-          headerStyle: {
+         /*  headerStyle: {
             backgroundColor: "#1f65ff",
-          },
+          }, */
           tabBarLabel: "MessageScreen",
           tabBarColor: "#009387",
           tabBarIcon: ({ color }) => (
@@ -75,18 +60,7 @@ function PatientTabNav({ navigation, route }) {
         }}
       />
 
-      {/* <Tab.Screen
-        name="Profile"
-        component={Profile}
-        initialParams={{ token: route.params.token }}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarColor: "#009387",
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-person" color={color} size={26} />
-          ),
-        }}
-      /> */}
+     
     </Tab.Navigator>
   );
 }

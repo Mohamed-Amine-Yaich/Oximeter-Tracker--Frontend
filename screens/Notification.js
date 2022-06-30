@@ -1,17 +1,4 @@
-/* import React, { Component } from "react";
-import { View, Text, Button } from "react-native";
-import { StatusBar } from "expo-status-bar";
-function Notification({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      {/* remove the black statusbar *
-      <StatusBar style="auto" />
-
-      <Text> this is Notification Screen</Text>
-    </View>
-  );
-}
-export default Notification; */
+/*/
 
 import React, { Component } from 'react';
 import {
@@ -235,4 +222,4 @@ const styles = StyleSheet.create({
     color: '#202020',
     fontWeight: '600',
   },
-}); 
+});  */

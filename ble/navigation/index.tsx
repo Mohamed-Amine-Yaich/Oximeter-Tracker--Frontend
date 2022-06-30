@@ -13,7 +13,7 @@ export type RootStackParamList = {
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
-
+//DeviceSettings name of component
 export const RootNavigator = ({ navigation, route }) => (
   /*  <NavigationContainer> */
   <Stack.Navigator /* mode="card" initialRouteName="Home" */>
@@ -24,7 +24,7 @@ export const RootNavigator = ({ navigation, route }) => (
         headerStyle: {
           backgroundColor: "#009387",
         },
-        headerLeft: () => (
+        headerRight: () => (
           <Icon.Button
             borderRadius={0}
             name="ios-menu"
@@ -42,9 +42,10 @@ export const RootNavigator = ({ navigation, route }) => (
       initialParams={{
         token: route.params.token,
         currentUser: route.params.currentUser,
+        //the device is passed from a component in home screen to this tabNav
       }}
       options={{
-        title: "Scan Devices",
+        title: "Details",
         headerStyle: {
           backgroundColor: "#009387",
         },

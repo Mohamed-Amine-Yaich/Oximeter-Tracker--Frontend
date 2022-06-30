@@ -47,10 +47,11 @@ import Patients from "./screens/admin/Patients";
 import Settings from "./screens/admin/Settings";
 import CommunList from "./screens/CommunList";
 import AboutDoctor from "./screens/profileStack/AboutDoctor";
-import PatientDataScreen from "./screens/patientScreens/PatientDataScreen";
+import AboutPatients from "./screens/admin/AboutPatients";
 /* ble screens */
 
 import { RootNavigator } from "./ble/navigation";
+import PatientDetailsTabNav from "./screens/patientScreens/detailsTab/PatientDetailsTabNav";
 export default function App() {
   const [isLoding, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
@@ -214,13 +215,12 @@ export default function App() {
                         }}
                       />
 
-                      <Drawer.Screen
+                      {/* <Drawer.Screen
                         name="Bookmarks"
                         component={BookmarkScreen}
                         initialParams={{ token: userToken }}
-                      />
+                      /> */}
 
-                      {/* this will be changed to profileStack  */}
                       <Drawer.Screen
                         name="Profile"
                         component={ProfileStackScreens}
@@ -238,7 +238,7 @@ export default function App() {
                     >
                       {/* user with patient role must have his own tabnav (the doctor tab nave depend of the list of patient for desplaying the selected patient) */}
                       <Drawer.Screen
-                        name="device"
+                        name="DeviceSettings"
                         component={RootNavigator}
                         initialParams={{
                           token: userToken,
@@ -246,19 +246,35 @@ export default function App() {
                         }}
                       />
                       <Drawer.Screen
-                        name="Details"
-                        component={PatientTabNav}
+                        name="PatientDetailsTab"
+                        component={PatientDetailsTabNav}
                         initialParams={{
                           token: userToken,
                           currentUser: userData,
                         }}
+                        options={{
+                          title: "Details",
+                          headerStyle: {
+                            backgroundColor: "#009387",
+                          },
+                          headerRight: () => (
+                            <Icon.Button
+                              borderRadius={0}
+                              name="ios-menu"
+                              size={25}
+                              color="#111"
+                              backgroundColor="#009387"
+                              onPress={() => navigation.openDrawer()}
+                            ></Icon.Button>
+                          ),
+                        }}
                       />
 
-                      <Drawer.Screen
+                      {/*   <Drawer.Screen
                         name="Bookmarks"
                         component={BookmarkScreen}
                         initialParams={{ token: userToken }}
-                      />
+                      /> */}
 
                       {/* this will be changed to profileStack  */}
                       <Drawer.Screen
@@ -319,8 +335,8 @@ export default function App() {
                         }}
                       />
                       <Drawer.Screen
-                        name="PatientDataScreen"
-                        component={PatientDataScreen}
+                        name="AboutPatients"
+                        component={AboutPatients}
                         initialParams={{
                           token: userToken,
                         }}

@@ -50,6 +50,7 @@ import { useTheme } from "@react-navigation/native";
 import { getAllPatientsAdmin } from "../../api/service";
 
 import Icon from "react-native-vector-icons/Ionicons";
+import DrawerButton from "../../DrawerButton";
 function Patients({ navigation, route }) {
   //change the color of the home screen depend on the app
 
@@ -59,7 +60,6 @@ function Patients({ navigation, route }) {
   //use for change the color of the status bar
   const theme = useTheme();
   const [list, setList] = useState(null);
-  /*  const [value, setValue] = useState(null); */
 
   useEffect(async () => {
     const data = await getAllPatientsAdmin(route.params.token);
@@ -80,14 +80,16 @@ function Patients({ navigation, route }) {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <Icon.Button
+      {/*  <Icon.Button
         name="ios-menu"
         borderRadius={0}
         size={25}
         color="#111"
         backgroundColor="#009387"
         onPress={() => navigation.openDrawer()}
-      ></Icon.Button>
+        style={{alignSelf:"flex-end"}}
+      ></Icon.Button> */}
+      <DrawerButton />
 
       <FlatList
         style={styles.notificationList}
@@ -99,7 +101,7 @@ function Patients({ navigation, route }) {
               onPress={() => {
                 /* when we press on a doctor we navigate to doctor about screen  that describe the specific doctor */
 
-                navigation.navigate("PatientDataScreen", { item });
+                navigation.navigate("AboutPatients", { item });
               }}
             >
               <View style={styles.cardContent}>
@@ -111,7 +113,6 @@ function Patients({ navigation, route }) {
                 />
 
                 <Text style={styles.name}>
-                  {item.role}{" "}
                   <Text style={{ fontWeight: "normal" }}>{item.name} </Text>
                 </Text>
               </View>

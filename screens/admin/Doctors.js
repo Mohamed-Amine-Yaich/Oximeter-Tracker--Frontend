@@ -16,6 +16,7 @@ import { useTheme } from "@react-navigation/native";
 import { getAllDoctorsAdmin } from "../../api/service";
 
 import Icon from "react-native-vector-icons/Ionicons";
+import DrawerButton from "../../DrawerButton";
 function Doctors({ navigation, route }) {
   //change the color of the home screen depend on the app
 
@@ -56,15 +57,7 @@ function Doctors({ navigation, route }) {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <Icon.Button
-        name="ios-menu"
-        borderRadius={0}
-        size={25}
-        color="#111"
-        backgroundColor="#009387"
-        onPress={() => navigation.openDrawer()}
-      ></Icon.Button>
-    
+      <DrawerButton />
 
       <FlatList
         style={styles.notificationList}

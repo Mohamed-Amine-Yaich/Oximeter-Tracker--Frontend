@@ -19,6 +19,7 @@ import {
 } from "react-native-paper";
 //for the icons
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon1 from "react-native-vector-icons/MaterialIcons";
 
 //for logout
 //for the getting the user data
@@ -31,16 +32,6 @@ export function DrawerContent(props) {
   //usetheme hooks one of his properties dark that return a boolean true if dark theme is active
   //useTheme()from the react-navigation/native or react-native-papaer
   const paperTheme = useTheme();
-
-  /* 
- to set the dark theme  and set the value of the switch
-  const [isDarkThem, setDarkThem] = React.useState(false);
-
-  
-  const toggelTheme = () => {
-    setDarkThem(!isDarkThem);
-    toggelAppTheme(isDarkThem)
-  }; */
 
   return (
     <View style={{ flex: 1 }}>
@@ -102,7 +93,7 @@ export function DrawerContent(props) {
               />
             </Drawer.Section>
 
-            <Drawer.Section>
+            {/* <Drawer.Section>
               <DrawerItem
                 icon={({ color, size }) => (
                   <Icon name="bookmark-outline" color={color} size={size} />
@@ -112,7 +103,7 @@ export function DrawerContent(props) {
                   props.navigation.navigate("Bookmarks");
                 }}
               />
-            </Drawer.Section>
+            </Drawer.Section> */}
 
             <Drawer.Section>
               <DrawerItem
@@ -194,12 +185,12 @@ export function DrawerContent(props) {
             <Drawer.Section>
               <DrawerItem
                 icon={({ color, size }) => (
-                  <Icon name="bookmark-outline" color={color} size={size} />
+                  <Icon1 name="app-settings-alt" color={color} size={size} />
                 )}
-                label="device settings"
+                label="Device Settings"
                 onPress={() => {
-                 /*  props.navigation.navigate("Bookmarks"); */
-                  props.navigation.navigate("device");
+                  /*  props.navigation.navigate("Bookmarks"); */
+                  props.navigation.navigate("DeviceSettings");
                 }}
               />
             </Drawer.Section>
@@ -210,7 +201,7 @@ export function DrawerContent(props) {
                   <Icon name="account-details" color={color} size={size} />
                 )}
                 label="Details"
-                onPress={() => props.navigation.navigate("Details")}
+                onPress={() => props.navigation.navigate("PatientDetailsTab")}
               />
             </Drawer.Section>
             {/* !!!!!!!!!!add support drawer section or other section */}

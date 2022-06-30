@@ -15,6 +15,7 @@ const DrawerButton = () => {
       color="#111"
       backgroundColor="#009387"
       onPress={() => navigation.openDrawer()}
+      style={{ alignSelf: "flex-end" }}
     ></Icon.Button>
   );
 };
